@@ -1,3 +1,0 @@
-为游戏Sunless Skies实现汉化
-
-技术路径是Bepinex
