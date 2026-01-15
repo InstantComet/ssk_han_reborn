@@ -17,7 +17,7 @@ namespace SskCnPoc;
 public class TextScanner : MonoBehaviour
 {
     private float _fastInterval = 0.05f;  // 快速扫描间隔（50ms，几乎即时）
-    private float _slowInterval = 2.0f;   // 慢速扫描间隔
+    private float _slowInterval = 30.0f;  // 慢速扫描间隔（30秒，几乎不扫描，避免卡顿）
     private int _fastScanCount = 30;      // 快速扫描次数（增加到30次，覆盖1.5秒）
     private float _lastScanTime = 0f;
     private bool _isScanning = false;
@@ -114,30 +114,28 @@ public class TextScanner : MonoBehaviour
     {
         if (!_isScanning) return;
         
-        // 根据扫描次数选择间隔
-        bool inFastMode = _scanCount < _fastScanCount;
-        float currentInterval = inFastMode ? _fastInterval : _slowInterval;
+        // 只在快速模式下扫描，之后完全依靠 Harmony patch
+        if (_scanCount >= _fastScanCount)
+        {
+            // 快速扫描结束，停止扫描并清理缓存
+            if (_useCachedComponents)
+            {
+                ClearCache();
+                Plugin.LogSrc.LogInfo("TextScanner: Fast scan complete, switching to Harmony-only mode");
+            }
+            return;
+        }
         
-        if (Time.time - _lastScanTime >= currentInterval)
+        if (Time.time - _lastScanTime >= _fastInterval)
         {
             _lastScanTime = Time.time;
             _scanCount++;
-            
-            // 退出快速模式时清除缓存，让慢速扫描使用完整查找（捕获新加载的组件）
-            if (!inFastMode && _useCachedComponents)
-            {
-                ClearCache();
-            }
             
             try
             {
                 if (_useCachedComponents && _cachedTmpTexts != null && _cachedUguiTexts != null)
                 {
                     Plugin.ScanCachedComponents(_cachedTmpTexts, _cachedUguiTexts);
-                }
-                else
-                {
-                    Plugin.ScanAndTranslateAllTmpText();
                 }
                 
                 // 只在前几次做调试输出

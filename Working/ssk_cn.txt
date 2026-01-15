@@ -1,31 +1,48 @@
+# ============================================
+# 1. 主菜单界面
+# ============================================
 Continue=继续
 New Game=新游戏
 Load Game=载入游戏
 Options=选项
 Credits=制作人员
 Exit to Desktop=退出到桌面
+
+# ============================================
+# 2. 游戏设置 - 音频
+# ============================================
 Audio=音频
 Music Volume ({0}%):=音乐音量 ({0}%):
 SFX Volume ({0}%):=音效音量 ({0}%):
 Ambient SFX Volume ({0}%):=环境音效音量 ({0}%):
+
+# ============================================
+# 3. 游戏设置 - 图形
+# ============================================
+Graphics=图形
+Full Screen=全屏
+Resolution=分辨率
+Texture Quality=纹理质量
+Standard=标准
+Font Size=字体大小
+Transparent UI=透明界面
+
+# ============================================
+# 4. 游戏设置 - 通用
+# ============================================
 Sunless Skies v{0}=无光之空 v{0}
 Apply=应用
 Back=返回
+Restore Defaults=恢复默认
 Controls=控制
-Font Size=字体大小
-Full Screen=全屏
-Graphics=图形
 Off=关
 On=开
-Resolution=分辨率
-Restore Defaults=恢复默认
-Standard=标准
-Texture Quality=纹理质量
-Transparent UI=透明界面
 Yes=是
 No=否
 
-# 控制界面 - 标题和选项
+# ============================================
+# 5. 控制设置 - 主控制界面
+# ============================================
 CONTROLS=控制
 Gamepad Options=手柄选项
 Gamepad:=手柄:
@@ -37,7 +54,9 @@ DONE=完成
 Replace=替换
 This will restore the default input configuration. Are you sure you want to do this?=这将恢复默认输入配置。确定要这样做吗？
 
-# 控制界面 - 分类和标签
+# ============================================
+# 6. 控制设置 - 分类和选项
+# ============================================
 Actions=操作
 Assign Controller=分配控制器
 Assigned Controllers:=已分配的控制器:
@@ -49,7 +68,9 @@ None=无
 Players:=玩家:
 Settings:=设置:
 
-# 控制界面 - 按钮和操作
+# ============================================
+# 7. 控制设置 - 按键
+# ============================================
 Backspace=退格键
 Calibrate=校准
 Cancel=取消
@@ -57,9 +78,6 @@ Done=完成
 Remove=移除
 Return=回车
 ESC=ESC键
-
-
-# 控制界面 - 方向键
 Down Arrow=下箭头
 Left Arrow=左箭头
 Right Arrow=右箭头
@@ -69,42 +87,72 @@ Page Up=上翻页
 Tab=Tab键
 Right Control=右Ctrl
 
-# 控制界面 - 鼠标按钮
+# ============================================
+# 8. 控制设置 - 鼠标
+# ============================================
 Left Mouse Button=鼠标左键
 Right Mouse Button=鼠标右键
 
-# 控制界面 - 游戏操作
+# ============================================
+# 9. 游戏控制 - 飞行操作
+# ============================================
 Cruise / Full Steam=巡航 / 全速
+Move Forward=向前移动
+Move Backward=向后移动
+Move Left=向左移动
+Move Right=向右移动
+Move Horizontal=水平移动
+Move Vertical=垂直移动
+Lateral Thrust Left=向左侧推
+Lateral Thrust Right=向右侧推
+Steer=转向
+Brake=刹车
+Thrust=推进
+
+# ============================================
+# 10. 游戏控制 - 闪避和躲避
+# ============================================
+Dodge left:=左闪避：
+Dodge right:=右闪避：
+
+# ============================================
+# 11. 游戏控制 - 武器系统
+# ============================================
 Engage primary weapon=发射主武器
-Engage Scout=派出侦察兵
 Engage secondary weapon=发射副武器
+Primary fire:=主火力：
+
+# ============================================
+# 12. 游戏控制 - 探索和交互
+# ============================================
+Engage Scout=派出侦察兵
 Explore=探索
 Horn=鸣笛
 Interact with object=与物体交互
 Light Toggle=灯光开关
-Lateral Thrust Left=向左侧推
-Lateral Thrust Right=向右侧推
-Move Backward=向后移动
-Move Forward=向前移动
-Move Horizontal=水平移动
-Move Left=向左移动
-Move Right=向右移动
-Move Vertical=垂直移动
 Open Chart=打开航图
-Pause or resume=暂停或继续
+
+# ============================================
+# 13. 游戏控制 - 游戏面板
+# ============================================
 Toggle Hold=切换货舱
 Toggle Journal=切换日志
 Toggle Officers=切换军官
 Toggle Profile=切换档案
-
-# 控制界面 - 游戏界面
 Facets=侧面
 Inventory=物品栏
 Journal=日志
 Officers=军官
 Status=状态
 
-# 控制界面 - UI导航
+# ============================================
+# 14. 游戏控制 - 菜单和系统
+# ============================================
+Pause or resume=暂停或继续
+
+# ============================================
+# 15. UI导航
+# ============================================
 UI Cancel=UI取消
 UI Move Down=UI向下移动
 UI Move Left=UI向左移动
@@ -120,27 +168,295 @@ UI Submit=UI确认
 UI Tab Left=UI左切换标签
 UI Tab Right=UI右切换标签
 
-# 手柄图示标签
+# ============================================
+# 16. 手柄显示标签
+# ============================================
 Chart=航图
 Pause=暂停
 Primary fire=主武器
 Secondary fire=副武器
-Dodge left=左闪避
-Dodge right=右闪避
 Cruise control=巡航控制
 Interact=交互
-Steer=转向
-Brake=刹车
-Thrust=推进
 Toggle lights=切换灯光
 Send Scout=派出侦察兵
 Radial menu=轮盘菜单
 
-# 按键分配提示模板（{0}会被替换为动作名称，动作名称会自动翻译）
+# ============================================
+# 17. 控制设置 - 提示信息
+# ============================================
 Press a key to assign it to {0}. Modifier keys may also be used. To assign a modifier key alone, hold it down for 1 second.=按下一个键来分配给 {0}。也可以使用修饰键。要单独分配修饰键，请按住1秒钟。
-
-# 按键冲突提示模板（{0}会被替换为按键名称，按键名称会自动翻译）
 {0} is already in use. Do you want to replace it? You may also choose to add the assignment anyway.={0} 已被使用。是否要替换？你也可以选择仍然添加此分配。
-
 Add=添加
 Assignment Conflict=分配冲突
+
+# ============================================
+# 18. UI菜单和显示
+# ============================================
+Pause Menu=暂停菜单
+Paused=已暂停
+Open Radial Menu=打开轮盘菜单
+Close=关闭
+Navigate=导航
+Select=选择
+Saving=保存中
+
+# ============================================
+# 19. UI信息和提示
+# ============================================
+Hide Tips=隐藏提示
+Tip title=提示标题
+Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description.=提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。
+
+# ============================================
+# 20. 游戏界面 - 面板和信息
+# ============================================
+Current Location=当前位置
+Region name=区域名称
+Region Description=区域描述
+Region=区域
+Category:=类别：
+Description (optional)=描述（可选）
+Content=内容
+Platform=平台
+New Facet Available=新侧面可用
+Legend=图例
+Toggle=切换
+Slot:=位置：
+Example=示例
+Exp Test Label=经验测试标签
+Change=改变
+
+# ============================================
+# 21. 游戏界面 - 报告和交互
+# ============================================
+Press        to send out your scout(costs Supplies)=按下        派出你的侦察兵（花费补给）
+Report a Bug=报告错误
+Bug report submitted!=错误报告已提交！
+Submit or cancel bug report to unpause=提交或取消错误报告以取消暂停
+Submit=提交
+Submitting Bug Report=提交错误报告中
+Submission Failed=提交失败
+Submission Successful=提交成功
+Unfortunately, we couldn't submit your report. It may be that there's a problem with your internet connection.=不幸的是，我们无法提交您的报告。可能是您的互联网连接有问题。
+If you're definitely online, please try again later – thanks for taking the time to make a report, and sorry for the trouble.=如果您确实在线，请稍后重试–感谢您抽出时间报告，对于麻烦表示歉意。
+Uploading... 0%=上传中... 0%
+
+# ============================================
+# 22. 错误报告和帮助
+# ============================================
+[<#FFD27C>A</color>]=
+BUGS & TECHNICAL HELP=Bug与技术支持
+If you find a bug please let us know via the bug reporter found through the pause menu or by pressing F8.=如果您发现错误，请通过暂停菜单中找到的错误报告工具或按F8告诉我们。
+For technical help, please see our <u><link=https://www.failbettergames.com/sunless-skies-troubleshooting-guide/>Troubleshooting Guide</link></u>.=如需技术支持，请参考我们的<u><link=https://www.failbettergames.com/sunless-skies-troubleshooting-guide/>故障排除指南</link></u>。
+For technical support please see our <u><link=https://steamcommunity.com/sharedfiles/filedetails/?id=1860884266>Troubleshooting Guide</link></u>.=如需技术支持，请查看我们的<u><link=https://steamcommunity.com/sharedfiles/filedetails/?id=1860884266>故障排除指南</link></u>。
+When you submit a report we also collect a copy of your save file, an output log with details about any errors or exceptions, and some system information, such as your operating system and screen resolution.=当你提交报告时，我们也会收集你的保存文件副本、包含错误或异常详情的输出日志，以及一些系统信息，如你的操作系统和屏幕分辨率。
+All data collected this way is anonymous and is only stored for 90 days (which gives us plenty of time to read and process it). Thank you – your reports and feedback help us to make Sunless Skies better.=以这种方式收集的所有数据都是匿名的，仅存储90天（这给我们充足的时间来阅读和处理）。谢谢–您的报告和反馈帮助我们改进Sunless Skies。
+Thank you.=谢谢。
+
+# ============================================
+# 23. 故事场景 - 开场和剧情
+# ============================================
+<size=75%>March 14th, 1905</size>=<size=75%>1905年3月14日</size>
+You have returned to the Reach: an untamed, sunless span of the heavens. London's new frontier. A celestial garden run wild.=你已返回远界：一片未驯化的、无日的天空。伦敦的新边界。一个失控的天体花园。
+14th Mar 1905=1905年3月14日
+Your journey back from the Blue Kingdom was tumultuous. Your locomotive is damaged, and Captain Whitlock badly wounded.=你从蓝色王国回来的旅途颠簸不堪。你的车头损坏了，惠特洛克船长伤得很重。
+57 Experience Gained=获得57经验
+A Knight of the Brazen Brigade=黄铜旅团的骑士
+A simple message=一条简单的信息
+A wreck drifts here, less fortunate even than you. "We should salvage her for repairs," a crewman suggests.=一艘残骸在这里漂浮，比你的情况还要糟糕。"我们应该打捞它来修复船只，"一名船员建议道。
+As First Officer, the crew look to you. The nearest station is New Winchester. Can you get the <i>Orphean</i> there safely?=作为大副，船员们都看着你。最近的站点是新温彻斯特。你能安全地将<i>孤儿号</i>送过去吗？
+The captain's condition is worsening.=船长的状况在恶化。
+Flotsam and jetsam, spilled from some lost locomotive. Perhaps you can salvage something useful.=漂浮物和沉没物，从某列失踪的车头溅出。也许你能打捞到有用的东西。
+When planning a journey, check your chart for Stations that sell Supplies and Fuel. Not all supply both.=规划旅程时，在您的航图上查找出售补给和燃料的站点。不是所有站点都同时供应两者。
+
+# ============================================
+# 24. 主要区域和王国
+# ============================================
+Albion=阿尔比恩
+The Blue Kingdom=蓝色王国
+The Reach=远界
+Elementutheria=自由城
+New Winchester=新温彻斯特
+Station=站点
+
+# ============================================
+# 25. 中转站
+# ============================================
+Albion Transit Relay=阿尔比恩中转站
+Blue Kingdom Transit Relay=蓝色王国中转站
+Elementutheria Transit Relay=自由城中转站
+Transit Relay=中转站
+
+# ============================================
+# 26. 港口和城镇
+# ============================================
+Port Avon=艾冬港
+Port Prosper=繁荣港
+Nowhere Inn=无处旅馆
+Company House=公司大楼
+Victory Hall=胜利厣
+The Village Green=村绿地
+
+# ============================================
+# 27. 自然地理特征 - 山岭和高地
+# ============================================
+Borges Ridge=博尔赫斯岭
+Braley Rock=布雷利岩
+Eskovitch Peak=埃斯科维奇峰
+Haustus Height=哈乌斯图斯高地
+Longknuckle Pass=长指节山口
+Ruetz Ridge=鲁茨岭
+
+# ============================================
+# 28. 自然地理特征 - 水体和湿地
+# ============================================
+Chardalus Gulf=查达鲁斯湿
+Corkery Cove=软木塞湿
+Heikkinensmere=海基宁湖
+Lapin Lake=拉平湖
+Traitor's Wood=背信者之林
+
+# ============================================
+# 29. 自然地理特征 - 草地和森林
+# ============================================
+Bloom Bower=花开之地
+Chequerboard Garden=棋盘花园
+Desolation of Saliba=萨利巴的荒凉
+Garden of Insatiable Roses=不知足玫瑰花园
+Havenwood=避难林
+Mold Pastures=模具牢场
+Petal End=花瀛尽头
+Posy Park=花束公园
+Scamps Narrow=淡气鬼的狭窄地段
+Sheridan's Expanse=谢里丹的较阔地域
+Stunted Grove=矮小树林
+The Deepwood=深林
+The Fallows=休耷地
+The Ten Thousand Streams=万流
+
+# ============================================
+# 30. 自然地理特征 - 其他
+# ============================================
+Cuddlescomb=抱抱梅
+Hare's Hope=野兔的希望
+Horror=恐怖
+Lustrum=卢斯特鲁姊
+Maroldwood=马罗德伍德
+Sheridan's Expanse=谢里丹的较阔地域
+Wonder=奇迹
+The Claim Fields=地产田地
+
+# ============================================
+# 31. 人名地点 - A到C
+# ============================================
+Addison Wick=艾迪生·威克
+Agata's Way=阿加塔的路
+Agbonon Spring=阿格博农温泉
+Albert's Idyll=艾伯特的田园诗
+Alexander-Yang Claim=亚历山大-杨地产
+Apoidean Gardens=蜜蜂花园
+Bancroft's Forum=班克罗夫特论坛
+Barselaar's Folly=巴塞拉尔的愚蠢
+Battle of Culverston=卡尔弗斯顿之战
+Cantor's Still=歌者的蒸馏器
+Capability's Cabins=能力号船舱
+Carillon=卡瑞隆
+
+# ============================================
+# 32. 人名地点 - C到H
+# ============================================
+Chance's Gloom=机会的暗处
+Cotterell=科特雷尔
+Elfrid and Klara's Farm=埃尔弗里德和克拉拉的农场
+Elinor Green=埃莉诺·格林
+Faith's Fall=信仰之落
+Forsythe's Font=福赛斯的字体
+Gabriel's Archive=加布里尔的档案库
+General's Weave=将军的织物
+Gideon's Bronze=基甸的青铜
+Glory's Cross=荣耀之十字
+Grave of the Silent Saint=沉默圣人的墓
+Grey Witnesses=灰色见证者
+Grey's Pardon=格雷的赦免
+Harrison's Hollow=哈里森的空心
+Hodges' Crucible=霍奇的坩埚
+Hyacinthus' Rest=风信子的休息处
+Hybras=海布拉斯
+
+# ============================================
+# 33. 人名地点 - J到P
+# ============================================
+Jaemisholm=杰米霍尔姆
+Jetticus Hives=杰提库斯蜂巢
+Kenyon's Hand=肯雍的手
+Kisigar Gardens=基西加花园
+Knowler's Knot=诺勒的结
+Leadbeater & Stainrod's Nature Reserve=利德比特和斯坦罗德自然保护区
+Lipkinsfield=利普金斯菲尔德
+Loren Scott House=洛伦·斯科特之家
+Lure=诱饵
+Machlin's Thrift=马克林的节俭
+Mad Mercy's Claim=疯狂慈悲地产
+Magdalene's=抹大拉的
+Martyr Pohs Meadow=殉道者波斯草地
+Memorial to the Unknown Rat=献给无名鼠的纪念碑
+Michelin's Meadow=米其林的草地
+Mol's Table=莫尔的桌子
+Nilsson's Point=尼尔松的地点
+O'Sullivan's Sight=奥沙利文的景象
+Old Tom's Well=老汤姆的井
+Perkins' Copse=帕金斯的灌木林
+Polmear and Plenty's Circus=波尔米尔和普伦蒂的马戏团
+
+# ============================================
+# 34. 人名地点 - R到W
+# ============================================
+Reach Marauder=远界掠夺者
+Regent's Grave=摄政王的墓
+Regent's Tears=摄政王的眼泪
+Riekstead=里克斯特德
+Salomé's Fall=莎乐美的陨落
+Schwartz's Oath=施瓦茨的誓言
+Shasta's Leg=沙斯塔的腿
+Skeen's Skein=斯基恩的纱线
+Something Ghastly=令人恐惧的东西
+Something Grave=严肃的东西
+Something that Glisters=闪闪发光的东西
+Something to Crave=令人渴望的东西
+Summerset Camp=萨默塞特营地
+Tiggelaar's Haunt=提格拉尔的鬼魂之地
+Titania=泰坦妮娅
+Trappisto's Hurry=特拉皮斯托的匆忙
+Valentine Square=情人节广场
+Van Zessen Waste=范泽森废地
+Whelping Rest=分娩休息
+Wilkinsonstead=威金森斯特德
+Willyamsweald=威廉斯韦尔德
+Wreck of the Parzifal=帕西法尔号残骸
+Youngsfound=扬斯方德
+
+# ============================================
+# 35. 船只名称
+# ============================================
+The Archipelagian Empress=群岛皆后
+The Ashkelon=阿什克隆号
+The Bidmead=比德米德号
+The Bonnie Shepherds=邑妮牡羊人
+The Destiny=命运号
+The Fullbright Factory=富尔布赠特工厂
+The Jæja=杰加号
+The McGillicuddy=麦吉利卡迪号
+The Mornington-Abrathat Span=莫宁顿-阿勃拉夫范围
+The Ozymandias=奧兹曼迪亚斯号
+The Palewood=棕榧木
+The Safira=萨菲拉号
+The Storm's Urge=暇风雨的冲动
+
+# ============================================
+# 36. 测试和其他内容
+# ============================================
+Narrative Issue=叙事问题
+Narrative Issue – Includes typos, story progression, journal inconsistencies.=叙事问题–包括拼写错误、故事进展、日志不一致。
+TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest=测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试
+TestTestTestTest=测试测试测试测试
+VERSION VERSION=版本 版本

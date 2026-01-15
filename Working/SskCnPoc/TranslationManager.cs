@@ -125,7 +125,14 @@ New Game=新游戏
             }
         }
         
-        // 4. 尝试模板匹配
+        // 4. 尝试日期翻译（动态处理各种日期格式）
+        var dateResult = DateTranslator.TryTranslateWithTags(text);
+        if (dateResult != null)
+        {
+            return dateResult;
+        }
+        
+        // 5. 尝试模板匹配
         return TryMatchTemplate(text);
     }
 

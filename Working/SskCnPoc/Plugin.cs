@@ -516,11 +516,12 @@ public class Plugin : BasePlugin
         {
             bool tmpPatched = PatchTmpSetTextInternal(_harmonyStatic);
             bool uguiPatched = PatchUguiTextInternal(_harmonyStatic);
+            bool canvasPatched = PatchCanvasOnEnable(_harmonyStatic);
             
             if (tmpPatched || uguiPatched)
             {
                 _patched = true;
-                LogSrc.LogInfo("SSK CN PoC patched successfully");
+                LogSrc.LogInfo($"SSK CN PoC patched successfully (TMP:{tmpPatched}, UGUI:{uguiPatched}, Canvas:{canvasPatched})");
                 return true;
             }
         }
@@ -529,6 +530,150 @@ public class Plugin : BasePlugin
             LogSrc.LogWarning($"Patch attempt failed: {ex.Message}");
         }
         return false;
+    }
+    
+    /// <summary>
+    /// Patch Canvas.OnEnable 来检测 UI 面板激活
+    /// </summary>
+    private static bool PatchCanvasOnEnable(Harmony harmony)
+    {
+        try
+        {
+            var canvasType = typeof(Canvas);
+            var onEnableMethod = canvasType.GetMethod("OnEnable", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            
+            if (onEnableMethod != null)
+            {
+                var postfixMethod = AccessTools.Method(typeof(Plugin), nameof(CanvasOnEnablePostfix));
+                harmony.Patch(onEnableMethod, postfix: new HarmonyMethod(postfixMethod));
+                LogSrc.LogInfo("✓ Patched Canvas.OnEnable (postfix) for UI panel detection");
+                return true;
+            }
+            
+            LogSrc.LogWarning("Could not find Canvas.OnEnable method");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            LogSrc.LogWarning($"PatchCanvasOnEnable error: {ex.Message}");
+            return false;
+        }
+    }
+    
+    /// <summary>
+    /// Canvas.OnEnable postfix - 当 Canvas 激活时扫描其子对象
+    /// </summary>
+    private static void CanvasOnEnablePostfix(Canvas __instance)
+    {
+        try
+        {
+            if (__instance == null) return;
+            
+            // 只处理 UI Canvas（排除 World Space）
+            if (__instance.renderMode == RenderMode.WorldSpace) return;
+            
+            // 扫描该 Canvas 下的所有文本组件
+            ScanCanvasChildren(__instance.gameObject);
+        }
+        catch (Exception ex)
+        {
+            LogSrc.LogDebug($"CanvasOnEnablePostfix error: {ex.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// 只扫描指定 GameObject 下的子文本组件（高效，不遍历整个场景）
+    /// </summary>
+    private static void ScanCanvasChildren(GameObject root)
+    {
+        int translated = 0;
+        
+        // 扫描 TMP 组件
+        var tmpTexts = root.GetComponentsInChildren<TMP_Text>(true);
+        foreach (var tmp in tmpTexts)
+        {
+            try
+            {
+                if (tmp == null) continue;
+                
+                int instanceId = tmp.GetInstanceID();
+                lock (_translatedLock)
+                {
+                    if (_translatedInstanceIds.Contains(instanceId))
+                        continue;
+                }
+
+                var currentText = tmp.text;
+                if (string.IsNullOrEmpty(currentText)) continue;
+                
+                if (ContainsChinese(currentText))
+                {
+                    lock (_translatedLock) { _translatedInstanceIds.Add(instanceId); }
+                    continue;
+                }
+
+                var translatedText = TranslationManager.TryTranslate(currentText);
+                if (translatedText != null)
+                {
+                    tmp.text = translatedText;
+                    translated++;
+                }
+                else
+                {
+                    MissingCollector.Collect(currentText);
+                }
+                
+                lock (_translatedLock) { _translatedInstanceIds.Add(instanceId); }
+                FontManager.EnsureChineseFontSupport(tmp);
+            }
+            catch { /* ignore */ }
+        }
+        
+        // 扫描 UGUI Text 组件
+        var uguiTexts = root.GetComponentsInChildren<UnityEngine.UI.Text>(true);
+        foreach (var uiText in uguiTexts)
+        {
+            try
+            {
+                if (uiText == null) continue;
+                
+                int instanceId = uiText.GetInstanceID();
+                lock (_translatedLock)
+                {
+                    if (_translatedInstanceIds.Contains(instanceId))
+                        continue;
+                }
+
+                var currentText = uiText.text;
+                if (string.IsNullOrEmpty(currentText)) continue;
+                
+                if (ContainsChinese(currentText))
+                {
+                    lock (_translatedLock) { _translatedInstanceIds.Add(instanceId); }
+                    continue;
+                }
+
+                var translatedText = TranslationManager.TryTranslate(currentText);
+                if (translatedText != null)
+                {
+                    uiText.text = translatedText;
+                    translated++;
+                }
+                else
+                {
+                    MissingCollector.Collect(currentText);
+                }
+                
+                lock (_translatedLock) { _translatedInstanceIds.Add(instanceId); }
+            }
+            catch { /* ignore */ }
+        }
+        
+        if (translated > 0)
+        {
+            LogSrc.LogInfo($"ScanCanvasChildren '{root.name}': translated {translated} texts");
+        }
     }
 
     /// <summary>
@@ -654,6 +799,28 @@ public class Plugin : BasePlugin
                 }
             }
             
+            // Also patch SetCharArray methods
+            var setCharArrayMethods = tmpType.GetMethods()
+                .Where(m => m.Name == "SetCharArray")
+                .ToArray();
+            
+            LogSrc.LogInfo($"Found {setCharArrayMethods.Length} SetCharArray methods");
+            
+            foreach (var method in setCharArrayMethods)
+            {
+                try
+                {
+                    // SetCharArray 需要不同的 prefix - 我们在 postfix 中重新翻译
+                    harmony.Patch(method, postfix: new HarmonyMethod(postfixMethod));
+                    LogSrc.LogInfo($"✓ Patched SetCharArray (postfix only)");
+                    patchedCount++;
+                }
+                catch (Exception ex)
+                {
+                    LogSrc.LogWarning($"Failed to patch SetCharArray: {ex.Message}");
+                }
+            }
+            
             return patchedCount > 0;
         }
         catch (Exception ex)
@@ -705,11 +872,18 @@ public class Plugin : BasePlugin
                 }
                 
                 FontManager.EnsureChineseFontSupport(__instance);
+                
+                // 检测到翻译，触发快速扫描来处理同一面板的其他静态文本
+                TriggerFastScanOnNewText();
+                
                 return false;  // 阻止原方法执行（我们已经设置了翻译后的文本）
             }
             else
             {
                 MissingCollector.Collect(__0);
+                
+                // 检测到未翻译的英文，也触发扫描（可能是新 UI 打开了）
+                TriggerFastScanOnNewText();
             }
         }
         catch (Exception ex)
@@ -719,15 +893,81 @@ public class Plugin : BasePlugin
         
         return true;  // 没有翻译，继续执行原方法
     }
+    
+    // 防止频繁触发扫描的节流
+    private static float _lastTriggerTime = 0f;
+    private const float TriggerCooldown = 0.5f;  // 0.5秒冷却
+    
+    private static void TriggerFastScanOnNewText()
+    {
+        if (_scanner == null) return;
+        
+        float currentTime = UnityEngine.Time.time;
+        if (currentTime - _lastTriggerTime < TriggerCooldown) return;
+        
+        _lastTriggerTime = currentTime;
+        _scanner.ResetToFastMode();
+        LogSrc.LogInfo("Triggered fast scan due to new text detected");
+    }
 
     /// <summary>
-    /// Harmony Postfix for TMP - 确保字体支持（用于没有翻译的情况）
+    /// Harmony Postfix for TMP - 确保字体支持，并处理可能遗漏的翻译
     /// </summary>
     private static void TmpTextSetterPostfix(TMP_Text __instance)
     {
+        if (_isSettingTmpText) return;  // 防止递归
+        
         try
         {
             if (__instance == null) return;
+            
+            // 获取当前文本
+            var currentText = __instance.text;
+            if (string.IsNullOrEmpty(currentText)) return;
+            
+            // 如果文本已经包含中文，只确保字体
+            if (ContainsChinese(currentText))
+            {
+                FontManager.EnsureChineseFontSupport(__instance);
+                return;
+            }
+            
+            // 检查是否有日期需要翻译（这对 SetCharArray 等情况很重要）
+            var dateTranslated = DateTranslator.TryTranslateWithTags(currentText);
+            if (dateTranslated != null)
+            {
+                LogSrc.LogInfo($"[TMP-POSTFIX] Date: '{currentText}' → '{dateTranslated}'");
+                _isSettingTmpText = true;
+                try
+                {
+                    __instance.text = dateTranslated;
+                }
+                finally
+                {
+                    _isSettingTmpText = false;
+                }
+                FontManager.EnsureChineseFontSupport(__instance);
+                return;
+            }
+            
+            // 尝试普通翻译
+            var translated = TranslationManager.TryTranslate(currentText);
+            if (translated != null)
+            {
+                LogSrc.LogInfo($"[TMP-POSTFIX] '{currentText}' → '{translated}'");
+                _isSettingTmpText = true;
+                try
+                {
+                    __instance.text = translated;
+                }
+                finally
+                {
+                    _isSettingTmpText = false;
+                }
+                FontManager.EnsureChineseFontSupport(__instance);
+                return;
+            }
+            
             FontManager.EnsureChineseFontSupport(__instance);
         }
         catch (Exception ex)
