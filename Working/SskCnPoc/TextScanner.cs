@@ -95,13 +95,11 @@ public class TextScanner : MonoBehaviour
         {
             if (_useCachedComponents && _cachedTmpTexts != null && _cachedUguiTexts != null)
             {
-                // 使用缓存的组件进行扫描
-                Plugin.ScanCachedComponents(_cachedTmpTexts, _cachedUguiTexts);
+                Plugin.ScanCached(_cachedTmpTexts, _cachedUguiTexts);
             }
             else
             {
-                // 回退到完整扫描
-                Plugin.ScanAndTranslateAllTmpText();
+                Plugin.ScanAll();
             }
         }
         catch (Exception ex)
@@ -135,13 +133,7 @@ public class TextScanner : MonoBehaviour
             {
                 if (_useCachedComponents && _cachedTmpTexts != null && _cachedUguiTexts != null)
                 {
-                    Plugin.ScanCachedComponents(_cachedTmpTexts, _cachedUguiTexts);
-                }
-                
-                // 只在前几次做调试输出
-                if (_scanCount <= 3)
-                {
-                    Plugin.DebugDumpAllTextComponents();
+                    Plugin.ScanCached(_cachedTmpTexts, _cachedUguiTexts);
                 }
             }
             catch (Exception ex)
