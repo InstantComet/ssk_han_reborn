@@ -1,0 +1,6 @@
+﻿Facets=
+Inventory=
+Journal=
+No Controllers Detected=
+Officers=
+Status=
