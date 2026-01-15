@@ -70,6 +70,11 @@ internal static class DateTranslator
     private static readonly Regex InlinePattern1b = new(
         $@"{MonthPattern}\s+(\d{{1,2}}),\s+{YearPattern}",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    
+    // 带 TMP 标签的日期模式 - 如 <size=75%>March 14th, 1905</size>
+    private static readonly Regex InlinePatternWithTag = new(
+        $@"(<[^>]+>)({MonthPattern}\s+{OrdinalPattern},\s+{YearPattern})(</[^>]+>)",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     // 缓存已翻译的日期
     private static readonly Dictionary<string, string> Cache = new(StringComparer.Ordinal);
@@ -225,6 +230,7 @@ internal static class DateTranslator
         var directResult = TryParseAndTranslate(text);
         if (directResult != null)
         {
+            Plugin.LogSrc.LogWarning($"[DATE-DIRECT] '{text}' → '{directResult}'");
             lock (CacheLock)
             {
                 Cache[text] = directResult;
@@ -235,21 +241,28 @@ internal static class DateTranslator
         // 尝试处理带标签的情况
         // 匹配 <tag>date</tag> 或 <tag=value>date</tag> 格式
         var tagMatch = Regex.Match(text, @"^(<[^>]+>)(.+?)(</[^>]+>)$");
+        Plugin.LogSrc.LogInfo($"[DATE-TAG-CHECK] text='{text}', tagMatch.Success={tagMatch.Success}");
         if (tagMatch.Success)
         {
             string openTag = tagMatch.Groups[1].Value;
             string content = tagMatch.Groups[2].Value;
             string closeTag = tagMatch.Groups[3].Value;
+            Plugin.LogSrc.LogInfo($"[DATE-TAG-PARTS] open='{openTag}', content='{content}', close='{closeTag}'");
             
             var contentTranslated = TryParseAndTranslate(content);
             if (contentTranslated != null)
             {
                 string result = $"{openTag}{contentTranslated}{closeTag}";
+                Plugin.LogSrc.LogWarning($"[DATE-TAG-OK] '{text}' → '{result}'");
                 lock (CacheLock)
                 {
                     Cache[text] = result;
                 }
                 return result;
+            }
+            else
+            {
+                Plugin.LogSrc.LogWarning($"[DATE-TAG-FAIL] content='{content}' not parsed as date");
             }
         }
         
@@ -279,6 +292,24 @@ internal static class DateTranslator
         string result = text;
         bool hasMatch = false;
         
+        // 首先替换带标签的日期，如 <size=75%>March 14th, 1905</size>
+        result = InlinePatternWithTag.Replace(result, m =>
+        {
+            hasMatch = true;
+            string openTag = m.Groups[1].Value;
+            string month = m.Groups[2].Value;
+            string day = m.Groups[3].Value;
+            string year = m.Groups[4].Value;
+            string closeTag = m.Groups[5].Value;
+            var translated = FormatChineseDate(year, month, day);
+            if (translated != null)
+            {
+                Plugin.LogSrc.LogWarning($"[DATE-INLINE-TAG] '{m.Value}' → '{openTag}{translated}{closeTag}'");
+                return $"{openTag}{translated}{closeTag}";
+            }
+            return m.Value;
+        });
+        
         // 替换 "Month Day(th), Year" 格式
         result = InlinePattern1.Replace(result, m =>
         {
@@ -286,7 +317,12 @@ internal static class DateTranslator
             string month = m.Groups[1].Value;
             string day = m.Groups[2].Value;
             string year = m.Groups[3].Value;
-            return FormatChineseDate(year, month, day) ?? m.Value;
+            var translated = FormatChineseDate(year, month, day);
+            if (translated != null)
+            {
+                Plugin.LogSrc.LogWarning($"[DATE-INLINE] '{m.Value}' → '{translated}'");
+            }
+            return translated ?? m.Value;
         });
         
         // 替换 "Month Day, Year" 格式（无序数后缀）
@@ -296,7 +332,12 @@ internal static class DateTranslator
             string month = m.Groups[1].Value;
             string day = m.Groups[2].Value;
             string year = m.Groups[3].Value;
-            return FormatChineseDate(year, month, day) ?? m.Value;
+            var translated = FormatChineseDate(year, month, day);
+            if (translated != null)
+            {
+                Plugin.LogSrc.LogWarning($"[DATE-INLINE-NOORD] '{m.Value}' → '{translated}'");
+            }
+            return translated ?? m.Value;
         });
         
         return hasMatch ? result : null;

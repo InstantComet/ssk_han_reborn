@@ -145,7 +145,13 @@ public class Plugin : BasePlugin
                     var txt = tmp.text;
                     if (!string.IsNullOrEmpty(txt) && debugShown < 30)
                     {
-                        LogSrc.LogInfo($"  TMP[{debugShown}]: '{txt}'");
+                        // 特别标记可能是日期的文本
+                        bool looksLikeDate = txt.Contains("th,") || txt.Contains("st,") || 
+                                             txt.Contains("nd,") || txt.Contains("rd,") ||
+                                             (txt.Contains("19") && txt.Length < 50) ||
+                                             (txt.Contains("March") || txt.Contains("January") || txt.Contains("February"));
+                        string marker = looksLikeDate ? "[DATE?] " : "";
+                        LogSrc.LogInfo($"  TMP[{debugShown}]: {marker}'{txt}'");
                         debugShown++;
                     }
                 }
@@ -173,6 +179,15 @@ public class Plugin : BasePlugin
                     // 直接获取 text 属性
                     var currentText = tmp.text;
                     if (string.IsNullOrEmpty(currentText)) continue;
+                    
+                    // 【关键日志】检测任何包含日期特征的文本
+                    bool looksLikeDate = currentText.Contains("th,") || currentText.Contains("st,") || 
+                                         currentText.Contains("nd,") || currentText.Contains("rd,") ||
+                                         (currentText.Contains("19") && currentText.Length < 50);
+                    if (looksLikeDate && !ContainsChinese(currentText))
+                    {
+                        LogSrc.LogWarning($"[DATE-SCAN] Found potential date in TMP: '{currentText}', GameObject: {tmp.gameObject?.name}");
+                    }
                     
                     // 跳过已经是中文的文本（已被翻译过）
                     if (ContainsChinese(currentText))
@@ -539,7 +554,24 @@ public class Plugin : BasePlugin
     {
         try
         {
-            var canvasType = typeof(Canvas);
+            // 使用反射获取 Canvas 类型（避免编译时依赖问题）
+            Type? canvasType = null;
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                try
+                {
+                    canvasType = assembly.GetType("UnityEngine.Canvas", false);
+                    if (canvasType != null) break;
+                }
+                catch { continue; }
+            }
+            
+            if (canvasType == null)
+            {
+                LogSrc.LogWarning("Canvas type not found");
+                return false;
+            }
+            
             var onEnableMethod = canvasType.GetMethod("OnEnable", 
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             
@@ -563,18 +595,34 @@ public class Plugin : BasePlugin
     
     /// <summary>
     /// Canvas.OnEnable postfix - 当 Canvas 激活时扫描其子对象
+    /// 使用 object 类型来避免编译时对 Canvas 的依赖
     /// </summary>
-    private static void CanvasOnEnablePostfix(Canvas __instance)
+    private static void CanvasOnEnablePostfix(object __instance)
     {
         try
         {
             if (__instance == null) return;
             
-            // 只处理 UI Canvas（排除 World Space）
-            if (__instance.renderMode == RenderMode.WorldSpace) return;
+            // 使用反射获取属性
+            var instanceType = __instance.GetType();
+            var renderModeProp = instanceType.GetProperty("renderMode");
+            var gameObjectProp = instanceType.GetProperty("gameObject");
             
-            // 扫描该 Canvas 下的所有文本组件
-            ScanCanvasChildren(__instance.gameObject);
+            if (renderModeProp != null)
+            {
+                var renderMode = renderModeProp.GetValue(__instance);
+                // RenderMode.WorldSpace = 2
+                if (renderMode != null && Convert.ToInt32(renderMode) == 2) return;
+            }
+            
+            if (gameObjectProp != null)
+            {
+                var gameObject = gameObjectProp.GetValue(__instance) as GameObject;
+                if (gameObject != null)
+                {
+                    ScanCanvasChildren(gameObject);
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -748,17 +796,30 @@ public class Plugin : BasePlugin
 
             LogSrc.LogInfo($"Found TMP_Text: {tmpType.FullName}");
 
+            // 列出所有可能的SetText方法（包括多参数版本）
             var allSetTextMethods = tmpType.GetMethods()
-                .Where(m => m.Name == "SetText" && m.GetParameters().Length == 1)
+                .Where(m => m.Name == "SetText")
+                .ToArray();
+            
+            LogSrc.LogInfo($"[DEBUG] Total SetText overloads: {allSetTextMethods.Length}");
+            foreach (var m in allSetTextMethods)
+            {
+                var pTypes = string.Join(", ", m.GetParameters().Select(p => p.ParameterType.Name));
+                LogSrc.LogInfo($"  SetText({pTypes})");
+            }
+            
+            // 只取单参数版本进行 Prefix 拦截
+            var singleParamSetTextMethods = allSetTextMethods
+                .Where(m => m.GetParameters().Length == 1)
                 .ToArray();
 
-            LogSrc.LogInfo($"Found {allSetTextMethods.Length} SetText methods");
+            LogSrc.LogInfo($"Found {singleParamSetTextMethods.Length} single-param SetText methods");
 
             var prefixMethod = AccessTools.Method(typeof(Plugin), nameof(TmpTextSetterPrefix));
             var postfixMethod = AccessTools.Method(typeof(Plugin), nameof(TmpTextSetterPostfix));
             
             int patchedCount = 0;
-            foreach (var setTextMethod in allSetTextMethods)
+            foreach (var setTextMethod in singleParamSetTextMethods)
             {
                 try
                 {
@@ -818,6 +879,29 @@ public class Plugin : BasePlugin
                 catch (Exception ex)
                 {
                     LogSrc.LogWarning($"Failed to patch SetCharArray: {ex.Message}");
+                }
+            }
+            
+            // Patch 多参数的 SetText 方法（可能用于日期等动态文本）
+            var multiParamSetTextMethods = allSetTextMethods
+                .Where(m => m.GetParameters().Length > 1)
+                .ToArray();
+            
+            LogSrc.LogInfo($"Found {multiParamSetTextMethods.Length} multi-param SetText methods");
+            
+            foreach (var method in multiParamSetTextMethods)
+            {
+                try
+                {
+                    // 多参数版本只能用 postfix
+                    harmony.Patch(method, postfix: new HarmonyMethod(postfixMethod));
+                    var pTypes = string.Join(", ", method.GetParameters().Select(p => p.ParameterType.Name));
+                    LogSrc.LogInfo($"✓ Patched SetText({pTypes}) (postfix only)");
+                    patchedCount++;
+                }
+                catch (Exception ex)
+                {
+                    LogSrc.LogWarning($"Failed to patch multi-param SetText: {ex.Message}");
                 }
             }
             
@@ -925,7 +1009,53 @@ public class Plugin : BasePlugin
             var currentText = __instance.text;
             if (string.IsNullOrEmpty(currentText)) return;
             
-            // 如果文本已经包含中文，只确保字体
+            // 【关键日志】检测任何包含日期特征的文本
+            bool looksLikeDate = currentText.Contains("th,") || currentText.Contains("st,") || 
+                                 currentText.Contains("nd,") || currentText.Contains("rd,") ||
+                                 (currentText.Contains("19") && currentText.Length < 50) ||
+                                 (currentText.Contains("18") && currentText.Length < 50);
+            if (looksLikeDate)
+            {
+                LogSrc.LogWarning($"[DATE-FOUND] TmpPostfix caught potential date: '{currentText}'");
+            }
+            
+            // 检查是否包含英文月份名（即使文本已有中文，也可能有未翻译的日期）
+            bool hasEnglishMonth = currentText.Contains("March") || currentText.Contains("January") || 
+                                   currentText.Contains("February") || currentText.Contains("April") ||
+                                   currentText.Contains("May") || currentText.Contains("June") ||
+                                   currentText.Contains("July") || currentText.Contains("August") ||
+                                   currentText.Contains("September") || currentText.Contains("October") ||
+                                   currentText.Contains("November") || currentText.Contains("December") ||
+                                   currentText.Contains("Jan ") || currentText.Contains("Feb ") ||
+                                   currentText.Contains("Mar ") || currentText.Contains("Apr ") ||
+                                   currentText.Contains("Jun ") || currentText.Contains("Jul ") ||
+                                   currentText.Contains("Aug ") || currentText.Contains("Sep ") ||
+                                   currentText.Contains("Oct ") || currentText.Contains("Nov ") ||
+                                   currentText.Contains("Dec ");
+            
+            // 如果文本包含英文月份，尝试内联日期翻译
+            if (hasEnglishMonth)
+            {
+                LogSrc.LogWarning($"[DATE-MIXED] Found English month in text: '{currentText}'");
+                var inlineTranslated = DateTranslator.TryTranslateWithTags(currentText);
+                if (inlineTranslated != null && inlineTranslated != currentText)
+                {
+                    LogSrc.LogWarning($"[DATE-MIXED-OK] '{currentText}' → '{inlineTranslated}'");
+                    _isSettingTmpText = true;
+                    try
+                    {
+                        __instance.text = inlineTranslated;
+                    }
+                    finally
+                    {
+                        _isSettingTmpText = false;
+                    }
+                    FontManager.EnsureChineseFontSupport(__instance);
+                    return;
+                }
+            }
+            
+            // 如果文本已经包含中文（且没有英文日期），只确保字体
             if (ContainsChinese(currentText))
             {
                 FontManager.EnsureChineseFontSupport(__instance);
@@ -936,7 +1066,7 @@ public class Plugin : BasePlugin
             var dateTranslated = DateTranslator.TryTranslateWithTags(currentText);
             if (dateTranslated != null)
             {
-                LogSrc.LogInfo($"[TMP-POSTFIX] Date: '{currentText}' → '{dateTranslated}'");
+                LogSrc.LogWarning($"[DATE-TRANSLATED] '{currentText}' → '{dateTranslated}'");
                 _isSettingTmpText = true;
                 try
                 {
