@@ -22,3 +22,125 @@ Restore Defaults=恢复默认
 Standard=标准
 Texture Quality=纹理质量
 Transparent UI=透明界面
+Yes=是
+No=否
+
+# 控制界面 - 标题和选项
+CONTROLS=控制
+Gamepad Options=手柄选项
+Gamepad:=手柄:
+Use Gamepad:=使用手柄:
+Apply Changes=应用更改
+APPLY CHANGES=应用更改
+RESTORE DEFAULTS=恢复默认
+DONE=完成
+Replace=替换
+This will restore the default input configuration. Are you sure you want to do this?=这将恢复默认输入配置。确定要这样做吗？
+
+# 控制界面 - 分类和标签
+Actions=操作
+Assign Controller=分配控制器
+Assigned Controllers:=已分配的控制器:
+Categories:=分类:
+Keyboard=键盘
+Mouse=鼠标
+No Controllers Detected=未检测到手柄
+None=无
+Players:=玩家:
+Settings:=设置:
+
+# 控制界面 - 按钮和操作
+Backspace=退格键
+Calibrate=校准
+Cancel=取消
+Done=完成
+Remove=移除
+Return=回车
+ESC=ESC键
+
+
+# 控制界面 - 方向键
+Down Arrow=下箭头
+Left Arrow=左箭头
+Right Arrow=右箭头
+Up Arrow=上箭头
+Page Down=下翻页
+Page Up=上翻页
+Tab=Tab键
+Right Control=右Ctrl
+
+# 控制界面 - 鼠标按钮
+Left Mouse Button=鼠标左键
+Right Mouse Button=鼠标右键
+
+# 控制界面 - 游戏操作
+Cruise / Full Steam=巡航 / 全速
+Engage primary weapon=发射主武器
+Engage Scout=派出侦察兵
+Engage secondary weapon=发射副武器
+Explore=探索
+Horn=鸣笛
+Interact with object=与物体交互
+Light Toggle=灯光开关
+Lateral Thrust Left=向左侧推
+Lateral Thrust Right=向右侧推
+Move Backward=向后移动
+Move Forward=向前移动
+Move Horizontal=水平移动
+Move Left=向左移动
+Move Right=向右移动
+Move Vertical=垂直移动
+Open Chart=打开航图
+Pause or resume=暂停或继续
+Toggle Hold=切换货舱
+Toggle Journal=切换日志
+Toggle Officers=切换军官
+Toggle Profile=切换档案
+
+# 控制界面 - 游戏界面
+Facets=侧面
+Inventory=物品栏
+Journal=日志
+Officers=军官
+Status=状态
+
+# 控制界面 - UI导航
+UI Cancel=UI取消
+UI Move Down=UI向下移动
+UI Move Left=UI向左移动
+UI Move Right=UI向右移动
+UI Move Up=UI向上移动
+UI Navigation Horizontal=UI水平导航
+UI Navigation Vertical=UI垂直导航
+UI Scroll=UI滚动
+UI Scroll Down=UI向下滚动
+UI Scroll Up=UI向上滚动
+UI Select=UI选择
+UI Submit=UI确认
+UI Tab Left=UI左切换标签
+UI Tab Right=UI右切换标签
+
+# 手柄图示标签
+Chart=航图
+Pause=暂停
+Primary fire=主武器
+Secondary fire=副武器
+Dodge left=左闪避
+Dodge right=右闪避
+Cruise control=巡航控制
+Interact=交互
+Steer=转向
+Brake=刹车
+Thrust=推进
+Toggle lights=切换灯光
+Send Scout=派出侦察兵
+Radial menu=轮盘菜单
+
+# 按键分配提示模板（{0}会被替换为动作名称，动作名称会自动翻译）
+Press a key to assign it to {0}. Modifier keys may also be used. To assign a modifier key alone, hold it down for 1 second.=按下一个键来分配给 {0}。也可以使用修饰键。要单独分配修饰键，请按住1秒钟。
+
+# 按键冲突提示模板（{0}会被替换为按键名称，按键名称会自动翻译）
+{0} is already in use. Do you want to replace it? You may also choose to add the assignment anyway.={0} 已被使用。是否要替换？你也可以选择仍然添加此分配。
+
+Add=添加
+Assignment Conflict=分配冲突

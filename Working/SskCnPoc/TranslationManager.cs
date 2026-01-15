@@ -17,6 +17,9 @@ internal static class TranslationManager
     // 模板匹配：按前缀首字母分组，提高查找效率
     public static Dictionary<char, List<TemplateEntry>> TemplatesByFirstChar { get; } = new();
     
+    // 前缀为空的模板（{0} 在句首），按后缀匹配
+    public static List<TemplateEntry> TemplatesWithEmptyPrefix { get; } = new();
+    
     // 已匹配的模板缓存：避免重复匹配相同的动态文本
     private static readonly Dictionary<string, string> _templateMatchCache = new(StringComparer.Ordinal);
     
@@ -65,6 +68,7 @@ New Game=新游戏
                 
                 if (prefix.Length > 0)
                 {
+                    // 有前缀，按首字符索引
                     char firstChar = prefix[0];
                     if (!TemplatesByFirstChar.TryGetValue(firstChar, out var list))
                     {
@@ -73,6 +77,13 @@ New Game=新游戏
                     }
                     list.Add(new TemplateEntry(prefix, suffix, zh));
                     templateCount++;
+                }
+                else if (suffix.Length > 0)
+                {
+                    // 前缀为空（{0}在句首），存入特殊列表
+                    TemplatesWithEmptyPrefix.Add(new TemplateEntry(prefix, suffix, zh));
+                    templateCount++;
+                    Plugin.LogSrc.LogInfo($"Loaded empty-prefix template: suffix='{suffix}'");
                 }
             }
             else
@@ -123,20 +134,29 @@ New Game=新游戏
     /// </summary>
     private static string? TryMatchTemplate(string text)
     {
-        if (TemplatesByFirstChar.Count == 0) return null;
-        
-        char firstChar = text[0];
-        
-        if (!TemplatesByFirstChar.TryGetValue(firstChar, out var templates))
+        // 1. 先尝试按首字符索引的模板
+        if (TemplatesByFirstChar.Count > 0)
         {
-            lock (_cacheLock)
+            char firstChar = text[0];
+            
+            if (TemplatesByFirstChar.TryGetValue(firstChar, out var templates))
             {
-                _noTemplateMatch.Add(text);
+                foreach (var template in templates)
+                {
+                    if (template.TryTranslate(text, out var translated))
+                    {
+                        lock (_cacheLock)
+                        {
+                            _templateMatchCache[text] = translated;
+                        }
+                        return translated;
+                    }
+                }
             }
-            return null;
         }
         
-        foreach (var template in templates)
+        // 2. 再尝试空前缀模板（{0}在句首，用后缀匹配）
+        foreach (var template in TemplatesWithEmptyPrefix)
         {
             if (template.TryTranslate(text, out var translated))
             {

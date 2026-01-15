@@ -98,6 +98,19 @@ if (Test-Path $outputDir) {
     }
 }
 
+# 复制翻译文件到插件目录
+Write-Step "Copying translation files..."
+$translationFiles = @("ssk_cn.txt", "ssk_cn_missing.txt")
+foreach ($file in $translationFiles) {
+    $srcPath = "$PSScriptRoot\$file"
+    if (Test-Path $srcPath) {
+        Copy-Item $srcPath $PluginsDir -Force
+        Write-OK "Copied $file"
+    } else {
+        Write-Info "Skipped $file (not found)"
+    }
+}
+
 # 检查插件是否已部署
 Write-Step "Plugin status:"
 $pluginDll = "$PluginsDir\SskCnPoc.dll"

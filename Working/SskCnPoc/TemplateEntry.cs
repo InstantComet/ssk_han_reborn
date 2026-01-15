@@ -45,6 +45,12 @@ internal sealed class TemplateEntry
         
         string param = input.Substring(paramStart, paramLen);
         
+        // 尝试对参数进行二次翻译（例如动作名称 "Engage Scout" -> "派出侦察兵"）
+        if (TranslationManager.Map.TryGetValue(param, out var translatedParam))
+        {
+            param = translatedParam;
+        }
+        
         // 构建翻译结果
         translated = ZhTemplate.Replace("{0}", param);
         return true;
