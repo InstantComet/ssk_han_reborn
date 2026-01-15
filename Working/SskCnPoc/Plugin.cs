@@ -115,11 +115,20 @@ public class Plugin : BasePlugin
         if (string.IsNullOrEmpty(text)) return false;
         foreach (char c in text)
         {
-            // 中文字符 Unicode 范围
             if (c >= 0x4E00 && c <= 0x9FFF) return true;
         }
         return false;
     }
+
+    // 用于快速检测英文月份的正则
+    private static readonly System.Text.RegularExpressions.Regex MonthRegex = new(
+        @"\b(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b",
+        System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+    /// <summary>
+    /// 检查文本是否包含英文月份名
+    /// </summary>
+    private static bool HasEnglishMonth(string text) => !string.IsNullOrEmpty(text) && MonthRegex.IsMatch(text);
 
     private static int _lastObjectCount = 0;
 
@@ -133,28 +142,11 @@ public class Plugin : BasePlugin
             // 直接使用 TMPro.TMP_Text 类型查找所有组件
             var allTmpTexts = Resources.FindObjectsOfTypeAll<TMPro.TMP_Text>();
             
-            // 调试：列出所有 TMP 文本（每次场景变化时）
+            // 调试：列出 TMP 组件数量变化
             if (allTmpTexts.Length > 0 && _lastObjectCount != allTmpTexts.Length)
             {
                 _lastObjectCount = allTmpTexts.Length;
-                LogSrc.LogInfo($"=== DEBUG: Found {allTmpTexts.Length} TMP components ===");
-                int debugShown = 0;
-                foreach (var tmp in allTmpTexts)
-                {
-                    if (tmp == null) continue;
-                    var txt = tmp.text;
-                    if (!string.IsNullOrEmpty(txt) && debugShown < 30)
-                    {
-                        // 特别标记可能是日期的文本
-                        bool looksLikeDate = txt.Contains("th,") || txt.Contains("st,") || 
-                                             txt.Contains("nd,") || txt.Contains("rd,") ||
-                                             (txt.Contains("19") && txt.Length < 50) ||
-                                             (txt.Contains("March") || txt.Contains("January") || txt.Contains("February"));
-                        string marker = looksLikeDate ? "[DATE?] " : "";
-                        LogSrc.LogInfo($"  TMP[{debugShown}]: {marker}'{txt}'");
-                        debugShown++;
-                    }
-                }
+                LogSrc.LogInfo($"Found {allTmpTexts.Length} TMP components");
             }
             
             int scanned = 0;
@@ -167,27 +159,14 @@ public class Plugin : BasePlugin
                 {
                     if (tmp == null) continue;
                     
-                    // 获取实例 ID，用于去重
                     int instanceId = tmp.GetInstanceID();
-                    
                     lock (_translatedLock)
                     {
-                        if (_translatedInstanceIds.Contains(instanceId))
-                            continue;
+                        if (_translatedInstanceIds.Contains(instanceId)) continue;
                     }
 
-                    // 直接获取 text 属性
                     var currentText = tmp.text;
                     if (string.IsNullOrEmpty(currentText)) continue;
-                    
-                    // 【关键日志】检测任何包含日期特征的文本
-                    bool looksLikeDate = currentText.Contains("th,") || currentText.Contains("st,") || 
-                                         currentText.Contains("nd,") || currentText.Contains("rd,") ||
-                                         (currentText.Contains("19") && currentText.Length < 50);
-                    if (looksLikeDate && !ContainsChinese(currentText))
-                    {
-                        LogSrc.LogWarning($"[DATE-SCAN] Found potential date in TMP: '{currentText}', GameObject: {tmp.gameObject?.name}");
-                    }
                     
                     // 跳过已经是中文的文本（已被翻译过）
                     if (ContainsChinese(currentText))
@@ -1009,47 +988,15 @@ public class Plugin : BasePlugin
             var currentText = __instance.text;
             if (string.IsNullOrEmpty(currentText)) return;
             
-            // 【关键日志】检测任何包含日期特征的文本
-            bool looksLikeDate = currentText.Contains("th,") || currentText.Contains("st,") || 
-                                 currentText.Contains("nd,") || currentText.Contains("rd,") ||
-                                 (currentText.Contains("19") && currentText.Length < 50) ||
-                                 (currentText.Contains("18") && currentText.Length < 50);
-            if (looksLikeDate)
-            {
-                LogSrc.LogWarning($"[DATE-FOUND] TmpPostfix caught potential date: '{currentText}'");
-            }
-            
             // 检查是否包含英文月份名（即使文本已有中文，也可能有未翻译的日期）
-            bool hasEnglishMonth = currentText.Contains("March") || currentText.Contains("January") || 
-                                   currentText.Contains("February") || currentText.Contains("April") ||
-                                   currentText.Contains("May") || currentText.Contains("June") ||
-                                   currentText.Contains("July") || currentText.Contains("August") ||
-                                   currentText.Contains("September") || currentText.Contains("October") ||
-                                   currentText.Contains("November") || currentText.Contains("December") ||
-                                   currentText.Contains("Jan ") || currentText.Contains("Feb ") ||
-                                   currentText.Contains("Mar ") || currentText.Contains("Apr ") ||
-                                   currentText.Contains("Jun ") || currentText.Contains("Jul ") ||
-                                   currentText.Contains("Aug ") || currentText.Contains("Sep ") ||
-                                   currentText.Contains("Oct ") || currentText.Contains("Nov ") ||
-                                   currentText.Contains("Dec ");
-            
-            // 如果文本包含英文月份，尝试内联日期翻译
-            if (hasEnglishMonth)
+            if (HasEnglishMonth(currentText))
             {
-                LogSrc.LogWarning($"[DATE-MIXED] Found English month in text: '{currentText}'");
                 var inlineTranslated = DateTranslator.TryTranslateWithTags(currentText);
                 if (inlineTranslated != null && inlineTranslated != currentText)
                 {
-                    LogSrc.LogWarning($"[DATE-MIXED-OK] '{currentText}' → '{inlineTranslated}'");
                     _isSettingTmpText = true;
-                    try
-                    {
-                        __instance.text = inlineTranslated;
-                    }
-                    finally
-                    {
-                        _isSettingTmpText = false;
-                    }
+                    try { __instance.text = inlineTranslated; }
+                    finally { _isSettingTmpText = false; }
                     FontManager.EnsureChineseFontSupport(__instance);
                     return;
                 }
@@ -1066,16 +1013,9 @@ public class Plugin : BasePlugin
             var dateTranslated = DateTranslator.TryTranslateWithTags(currentText);
             if (dateTranslated != null)
             {
-                LogSrc.LogWarning($"[DATE-TRANSLATED] '{currentText}' → '{dateTranslated}'");
                 _isSettingTmpText = true;
-                try
-                {
-                    __instance.text = dateTranslated;
-                }
-                finally
-                {
-                    _isSettingTmpText = false;
-                }
+                try { __instance.text = dateTranslated; }
+                finally { _isSettingTmpText = false; }
                 FontManager.EnsureChineseFontSupport(__instance);
                 return;
             }
