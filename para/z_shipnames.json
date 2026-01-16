@@ -1,0 +1,1544 @@
+[
+  {
+    "key": "z_shipnames1",
+    "original": "UCE Almedicus",
+    "translation": "UCE Almedicus",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames2",
+    "original": "HML All's Right With the World",
+    "translation": "英国皇家机车万事升平号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames3",
+    "original": "UCE Chrysopoeia",
+    "translation": "UCE Chrysopoeia",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames4",
+    "original": "HML Laidlaw's Drake",
+    "translation": "HML Laidlaw's Drake",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames5",
+    "original": "UCE Storm's Urge",
+    "translation": "UCE风暴的敦促",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames6",
+    "original": "HML Quaint",
+    "translation": "英国皇家机车古雅号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames7",
+    "original": "UCE Jæja",
+    "translation": "UCE Jæja",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames8",
+    "original": "UCE Devil's Own Luck",
+    "translation": "UCE 恶魔自己的运气",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames9",
+    "original": "UCE Arbat",
+    "translation": "UCE Arbat",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames10",
+    "original": "UCE Auspicious Nilsson",
+    "translation": "UCE吉祥物尼尔森",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames11",
+    "original": "HML Phoenix",
+    "translation": "英国皇家机车凤凰号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames12",
+    "original": "UCE Crepuscular",
+    "translation": "UCE Crepuscular",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames13",
+    "original": "HML Vollrath's Stigma",
+    "translation": "HML Vollrath's Stigma",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames14",
+    "original": "UCE Eloquence",
+    "translation": "UCE Eloquence",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames15",
+    "original": "HML Perquisite of Business",
+    "translation": "HML业务的前提条件",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames16",
+    "original": "UCE Niagara",
+    "translation": "尼亚加拉号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames17",
+    "original": "UCE Blade of Night",
+    "translation": "UCE夜刃号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames18",
+    "original": "The Girard",
+    "translation": "吉拉德号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames19",
+    "original": "The Biloxi Green",
+    "translation": "比洛克斯绿地",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames20",
+    "original": "The Daydreamer",
+    "translation": "空想家号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames21",
+    "original": "The Vigs",
+    "translation": "维格斯",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames22",
+    "original": "The Yamashita",
+    "translation": "山下号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames23",
+    "original": "The Green Meadows",
+    "translation": "绿甸号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames24",
+    "original": "The Natick",
+    "translation": "纳蒂克号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames25",
+    "original": "UCE Valentino",
+    "translation": "UCE 瓦伦蒂诺",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames26",
+    "original": "The Stormcrow",
+    "translation": "风暴鸦号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames27",
+    "original": "The Ogre",
+    "translation": "食人魔号",
+    "stage": 5
+  },
+  {
+    "key": "z_shipnames28",
+    "original": "The Renshaw's Runabout",
+    "translation": "伦肖的跑马场",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames29",
+    "original": "The Flint",
+    "translation": "燧石号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames30",
+    "original": "The Monterey",
+    "translation": "蒙特雷号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames31",
+    "original": "The Archipelagian Empress",
+    "translation": "群岛皇后号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames32",
+    "original": "The Aurora",
+    "translation": "曙光号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames33",
+    "original": "The Pontianak",
+    "translation": "坤甸岛",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames34",
+    "original": "The Crepuscular",
+    "translation": "曙暮号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames35",
+    "original": "The Ice-Maiden",
+    "translation": "冰女号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames36",
+    "original": "The Mustard",
+    "translation": "芥末酱",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames37",
+    "original": "The Sapphire Rose",
+    "translation": "蓝宝石玫瑰号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames38",
+    "original": "The Bold Questions",
+    "translation": "大胆的问题",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames39",
+    "original": "The Antares",
+    "translation": "安塔斯号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames40",
+    "original": "The Perill-Ennis",
+    "translation": "危险-恩尼斯",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames41",
+    "original": "HML Pegana",
+    "translation": "HML Pegana",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames42",
+    "original": "UCE Tervonen",
+    "translation": "UCE Tervonen",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames43",
+    "original": "HML Carlisle Sunset",
+    "translation": "HML卡莱尔的夕阳",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames44",
+    "original": "HML Wellington-Smythe",
+    "translation": "惠灵顿-斯密特公司",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames45",
+    "original": "HML Scholar's Folly",
+    "translation": "英国皇家机车学者愚行号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames46",
+    "original": "HML Renfeild",
+    "translation": "HML Renfeild",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames47",
+    "original": "HML Golden Age",
+    "translation": "英国皇家机车黄金时代号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames48",
+    "original": "UCE Erik's Range",
+    "translation": "UCE Erik的范围",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames49",
+    "original": "HML Leave It To You",
+    "translation": "英国皇家机车托付号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames50",
+    "original": "UCE Knaresborough Kindly",
+    "translation": "UCE Knaresborough Kindly",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames51",
+    "original": "UCE Grand Walston",
+    "translation": "UCE大沃斯顿",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames52",
+    "original": "HML Astor",
+    "translation": "HML Astor",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames53",
+    "original": "UCE Safira",
+    "translation": "UCE Safira",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames54",
+    "original": "UCE Atropos",
+    "translation": "UCE Atropos",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames55",
+    "original": "The Shepherd's Twilight",
+    "translation": "牧羊人的黄昏",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames56",
+    "original": "The Dinh",
+    "translation": "Dinh",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames57",
+    "original": "The Rhapsody",
+    "translation": "狂想曲",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames58",
+    "original": "UCE Burning Bridge",
+    "translation": "UCE燃烧的桥梁",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames59",
+    "original": "The Schellenberger",
+    "translation": "谢伦伯格家族",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames60",
+    "original": "The Capybara",
+    "translation": "卡皮巴拉号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames61",
+    "original": "The Newton's Nocturne",
+    "translation": "牛顿的夜曲",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames62",
+    "original": "The Falzell's Silence",
+    "translation": "法尔兹尔的沉默",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames63",
+    "original": "UCE Vitas Varnas",
+    "translation": "UCE Vitas Varnas",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames64",
+    "original": "UCE Jiminez",
+    "translation": "UCE Jiminez",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames65",
+    "original": "HML Waterloo",
+    "translation": "HML滑铁卢",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames66",
+    "original": "HML Hollins",
+    "translation": "HML霍林斯",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames67",
+    "original": "UCE Pompous",
+    "translation": "UCE 傲慢无礼",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames68",
+    "original": "UCE Maryland",
+    "translation": "马里兰州大学教育学院",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames69",
+    "original": "UCE Barker",
+    "translation": "UCE Barker",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames70",
+    "original": "UCE Corvidae",
+    "translation": "UCE 雀形目",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames71",
+    "original": "HML Arjoonlal",
+    "translation": "HML Arjoonlal",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames72",
+    "original": "UCE Avaunt",
+    "translation": "UCE Avaunt",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames73",
+    "original": "UCE Ice-Maiden",
+    "translation": "UCE冰女郎",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames74",
+    "original": "HML Korso",
+    "translation": "HML Korso",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames75",
+    "original": "HML Ironclad",
+    "translation": "英国皇家机车铁甲车号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames76",
+    "original": "UCE Tuxedo",
+    "translation": "UCE燕尾服号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames77",
+    "original": "UCE Dresden",
+    "translation": "UCE德累斯顿号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames78",
+    "original": "UCE Guthrie's Revelation",
+    "translation": "UCE Guthrie的启示",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames79",
+    "original": "UCE Green Meadows",
+    "translation": "UCE绿甸号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames80",
+    "original": "The So It Goes",
+    "translation": "如此这般",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames81",
+    "original": "The Indefatigable",
+    "translation": "不倦号",
+    "stage": 5
+  },
+  {
+    "key": "z_shipnames82",
+    "original": "The Erik's Range",
+    "translation": "埃里克的范围",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames83",
+    "original": "The Illusive Eltzroth",
+    "translation": "虚幻的Eltzroth",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames84",
+    "original": "The Northerly Mill",
+    "translation": "北方的磨坊",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames85",
+    "original": "The Blade of Night",
+    "translation": "夜刃号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames86",
+    "original": "UCE Howard's Nightmare",
+    "translation": "UCE霍华德的恶梦",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames87",
+    "original": "HML Toledo",
+    "translation": "英国皇家机车托莱多号",
+    "stage": 5
+  },
+  {
+    "key": "z_shipnames88",
+    "original": "UCE Path of Virtue",
+    "translation": "UCE 美德之路",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames89",
+    "original": "HML Damascus Devil",
+    "translation": "HML大马士革魔鬼",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames90",
+    "original": "HML Damocles",
+    "translation": "英国皇家机车达摩克利斯号",
+    "stage": 5
+  },
+  {
+    "key": "z_shipnames91",
+    "original": "UCE Hillcrest Lodge",
+    "translation": "UCE Hillcrest Lodge",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames92",
+    "original": "UCE Bremen's Goat",
+    "translation": "UCE不莱梅的山羊",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames93",
+    "original": "HML Hackett",
+    "translation": "HML哈克特",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames94",
+    "original": "HML Mistakes Were Made",
+    "translation": "英国皇家机车铸错号",
+    "stage": 5
+  },
+  {
+    "key": "z_shipnames95",
+    "original": "UCE Wasn't Expecting That",
+    "translation": "UCE始料未及号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames96",
+    "original": "HML Miles",
+    "translation": "HML Miles",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames97",
+    "original": "UCE Mustard",
+    "translation": "UCE芥末酱",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames98",
+    "original": "The Wilde",
+    "translation": "王尔德号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames99",
+    "original": "The Eloquence",
+    "translation": "雄辩号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames100",
+    "original": "The Dothren",
+    "translation": "多斯人",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames101",
+    "original": "The Maatala",
+    "translation": "马塔拉",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames102",
+    "original": "The Maundy Bell",
+    "translation": "茅盾钟",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames103",
+    "original": "The Ghost Story",
+    "translation": "幽灵的故事",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames104",
+    "original": "The Aydelotte",
+    "translation": "艾德洛特号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames105",
+    "original": "The Gabriele",
+    "translation": "加布里埃勒号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames106",
+    "original": "The Ramming Speed",
+    "translation": "冲撞速度",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames107",
+    "original": "HML Firebrand",
+    "translation": "HML Firebrand",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames108",
+    "original": "HML Echelon",
+    "translation": "HML Echelon",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames109",
+    "original": "UCE Pernicious",
+    "translation": "UCE Pernicious",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames110",
+    "original": "UCE Sammamish",
+    "translation": "UCE Sammamish",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames111",
+    "original": "UCE Allegheny",
+    "translation": "阿勒格尼大学",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames112",
+    "original": "UCE Old Izergil",
+    "translation": "UCE Old Izergil",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames113",
+    "original": "HML Hippopotamus",
+    "translation": "HML河马",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames114",
+    "original": "HML Riga",
+    "translation": "HML里加",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames115",
+    "original": "HML Sheffield",
+    "translation": "谢菲尔德HML公司",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames116",
+    "original": "UCE Greensborough",
+    "translation": "格林斯堡大学教育学院",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames117",
+    "original": "HML Harbinger",
+    "translation": "HML Harbinger",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames118",
+    "original": "The Junker",
+    "translation": "容克号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames119",
+    "original": "The Hard Six",
+    "translation": "困难六人组",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames120",
+    "original": "The Magnanimous",
+    "translation": "大度的人",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames121",
+    "original": "The Silverstone",
+    "translation": "西尔维斯通",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames122",
+    "original": "The Maelstrom",
+    "translation": "漩涡",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames123",
+    "original": "The Exiled",
+    "translation": "被放逐者",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames124",
+    "original": "The Pirie Harlequin",
+    "translation": "皮里-哈雷金号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames125",
+    "original": "The Hahne",
+    "translation": "哈恩号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames126",
+    "original": "HML Fanaroff",
+    "translation": "HML Fanaroff",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames127",
+    "original": "HML Brennan",
+    "translation": "HML Brennan",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames128",
+    "original": "UCE Alexander's Hubris",
+    "translation": "UCE亚历山大的傲慢",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames129",
+    "original": "UCE Finlayson",
+    "translation": "UCE Finlayson",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames130",
+    "original": "UCE Time Waits for No One",
+    "translation": "UCE时间不等人",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames131",
+    "original": "UCE Wentworth Conviction",
+    "translation": "UCE温特沃斯的定罪",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames132",
+    "original": "UCE Capybara",
+    "translation": "UCE Capybara",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames133",
+    "original": "UCE Burgoyne",
+    "translation": "UCE布尔戈伊恩",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames134",
+    "original": "HML Herne Hill",
+    "translation": "HML Herne Hill",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames135",
+    "original": "HML Milanowski",
+    "translation": "HML Milanowski",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames136",
+    "original": "HML von Knut",
+    "translation": "HML von Knut",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames137",
+    "original": "UCE Frangipani",
+    "translation": "UCE弗兰吉帕尼",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames138",
+    "original": "UCE Veil and Guise",
+    "translation": "UCE面纱和头巾",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames139",
+    "original": "HML Sturgess",
+    "translation": "HML Sturgess",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames140",
+    "original": "HML MacGregor",
+    "translation": "HML MacGregor",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames141",
+    "original": "UCE Recondite",
+    "translation": "UCE Recondite",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames142",
+    "original": "HML Extolment",
+    "translation": "HML 延伸",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames143",
+    "original": "HML Heart's Reason",
+    "translation": "HML心脏的原因",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames144",
+    "original": "The Faraday",
+    "translation": "法拉第",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames145",
+    "original": "The Melancholy Budapest",
+    "translation": "忧郁的布达佩斯",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames146",
+    "original": "The Belfair Owl",
+    "translation": "贝尔法尔的猫头鹰",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames147",
+    "original": "The Roanoke",
+    "translation": "罗阿诺克",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames148",
+    "original": "UCE Tempest",
+    "translation": "UCE暴风号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames149",
+    "original": "UCE Silverstone",
+    "translation": "UCE Silverstone",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames150",
+    "original": "The Cappadocia",
+    "translation": "卡帕多奇亚",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames151",
+    "original": "The Never O'Neill",
+    "translation": "永恒的奥尼尔",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames152",
+    "original": "The Calenture",
+    "translation": "卡伦蒂诺",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames153",
+    "original": "The Zesty",
+    "translation": "欢乐之声",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames154",
+    "original": "The Blackwell",
+    "translation": "布莱克威尔",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames155",
+    "original": "The Destiny",
+    "translation": "命运",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames156",
+    "original": "UCE To Hell and Back",
+    "translation": "UCE到地狱去，再回来",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames157",
+    "original": "UCE Wilde",
+    "translation": "UCE Wilde",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames158",
+    "original": "UCE Leonard",
+    "translation": "伦纳德大学",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames159",
+    "original": "The Spellbinder",
+    "translation": "魔术师",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames160",
+    "original": "The Shields",
+    "translation": "盾牌",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames161",
+    "original": "The Great Great Aunt Kay",
+    "translation": "伟大的大姨妈凯",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames162",
+    "original": "The Wasn't Expecting That",
+    "translation": "没想到的是",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames163",
+    "original": "UCE Nanilinsky Dancer",
+    "translation": "UCE Nanilinsky舞者",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames164",
+    "original": "The Jotblad",
+    "translation": "纪事报》杂志",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames165",
+    "original": "The Mercy of Colours",
+    "translation": "颜色的慈悲",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames166",
+    "original": "The Storm's Urge",
+    "translation": "风暴的冲动",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames167",
+    "original": "The Atropos",
+    "translation": "阿特罗普斯",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames168",
+    "original": "The Efficiency Is Our Watchword",
+    "translation": "效率是我们的口号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames169",
+    "original": "UCE Acadiana",
+    "translation": "UCE Acadiana",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames170",
+    "original": "HML Glenbrook",
+    "translation": "HML 格伦布鲁克",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames171",
+    "original": "HML Mountain Wind",
+    "translation": "HML山风公司",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames172",
+    "original": "UCE Exiled",
+    "translation": "流放的UCE",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames173",
+    "original": "UCE Dashing Ram",
+    "translation": "UCE的冲刺公羊",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames174",
+    "original": "UCE Lulu",
+    "translation": "UCE Lulu",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames175",
+    "original": "UCE Elpha Green",
+    "translation": "UCE Elpha Green",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames176",
+    "original": "UCE Kinnaird",
+    "translation": "UCE Kinnaird",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames177",
+    "original": "UCE Shepherd's Twilight",
+    "translation": "UCE牧羊人的黄昏",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames178",
+    "original": "UCE McGillicuddy",
+    "translation": "UCE麦基利卡迪",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames179",
+    "original": "UCE Ellington's Zenith",
+    "translation": "UCE 艾灵顿的天顶",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames180",
+    "original": "HML McGarry's Clock",
+    "translation": "HML McGarry的时钟",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames181",
+    "original": "UCE Never O'Neill",
+    "translation": "UCE Never O'Neill",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames182",
+    "original": "UCE Daydreamer",
+    "translation": "UCE白日梦者",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames183",
+    "original": "HML Frankrock",
+    "translation": "HML Frankrock",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames184",
+    "original": "UCE Danda",
+    "translation": "UCE Danda",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames185",
+    "original": "HML Madden",
+    "translation": "HML Madden",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames186",
+    "original": "The Alternative Diplomacy",
+    "translation": "另类外交",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames187",
+    "original": "The Bremen's Goat",
+    "translation": "不莱梅的山羊",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames188",
+    "original": "The Erskine",
+    "translation": "埃斯金号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames189",
+    "original": "The Deliverance",
+    "translation": "解脱",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames190",
+    "original": "UCE Klopfenstein",
+    "translation": "UCE Klopfenstein",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames191",
+    "original": "UCE Persephone",
+    "translation": "UCE珀尔塞福涅",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames192",
+    "original": "UCE Bookworm",
+    "translation": "UCE书虫",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames193",
+    "original": "UCE Dauntless Salazar",
+    "translation": "UCE无畏号萨拉兹",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames194",
+    "original": "UCE Syracuse",
+    "translation": "锡拉丘兹大学",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames195",
+    "original": "UCE Cappadocia",
+    "translation": "卡帕多奇亚大学",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames196",
+    "original": "HML Threadcraft",
+    "translation": "HML螺纹工艺",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames197",
+    "original": "HML Amaranth",
+    "translation": "HML 苋菜",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames198",
+    "original": "HML Svelten",
+    "translation": "HML Svelten",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames199",
+    "original": "UCE Philosophy",
+    "translation": "UCE理念",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames200",
+    "original": "The Keep Your Opinions To Yourself",
+    "translation": "保持自己的观点",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames201",
+    "original": "The Kulak",
+    "translation": "库拉克人",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames202",
+    "original": "The Steady Zephyr",
+    "translation": "稳健的泽普尔号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames203",
+    "original": "The Alcuin",
+    "translation": "阿尔库恩号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames204",
+    "original": "The Pernicious",
+    "translation": "恶毒的人",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames205",
+    "original": "The Finlayson",
+    "translation": "芬莱森",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames206",
+    "original": "The Widdershins",
+    "translation": "维德申夫妇",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames207",
+    "original": "The Liipola",
+    "translation": "利波拉号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames208",
+    "original": "Placeholder Title",
+    "translation": "占位符标题",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames209",
+    "original": "The Devil's Own Luck",
+    "translation": "恶魔自己的运气",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames210",
+    "original": "The Typhoon",
+    "translation": "台风",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames211",
+    "original": "The King of Emeralds",
+    "translation": "绿宝石之王",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames212",
+    "original": "The Lulu",
+    "translation": "璐璐",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames213",
+    "original": "The Elpha Green",
+    "translation": "埃尔法绿色",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames214",
+    "original": "The Ambition",
+    "translation": "雄心壮志",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames215",
+    "original": "The Leppänen",
+    "translation": "莱帕宁家族",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames216",
+    "original": "The Arbat",
+    "translation": "阿尔巴特",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames217",
+    "original": "The Luckham",
+    "translation": "乐凯姆餐厅",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames218",
+    "original": "The Nanilinsky Dancer",
+    "translation": "纳尼林斯基的舞者",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames219",
+    "original": "The Please Leave",
+    "translation": "请离开",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames220",
+    "original": "UCE Ramsgate's Robust",
+    "translation": "拉姆斯盖特大学的强健体魄",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames221",
+    "original": "UCE Perfidious Objectivity",
+    "translation": "UCE不诚实的客观性",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames222",
+    "original": "UCE Rönnholm",
+    "translation": "UCE Rönnholm",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames223",
+    "original": "The Jared",
+    "translation": "杰瑞德",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames224",
+    "original": "The McGillicuddy",
+    "translation": "麦基利克迪号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames225",
+    "original": "The Ella Planey",
+    "translation": "艾拉-普莱尼号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames226",
+    "original": "The Manatee",
+    "translation": "海牛》（The Manatee",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames227",
+    "original": "The Coronado",
+    "translation": "科罗纳多",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames228",
+    "original": "UCE Princess",
+    "translation": "UCE公主",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames229",
+    "original": "UCE Richard Roamer",
+    "translation": "UCE Richard Roamer",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames230",
+    "original": "The Shenanigans",
+    "translation": "恶作剧",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames231",
+    "original": "The Barker",
+    "translation": "巴克的故事",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames232",
+    "original": "The Sobriquet",
+    "translation": "命名为Sobriquet",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames233",
+    "original": "The Hanyang ",
+    "translation": "汉阳 ",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames234",
+    "original": "The Choko",
+    "translation": "乔科",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames235",
+    "original": "th",
+    "translation": "钍",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames236",
+    "original": "UCE Giouli's Monkey",
+    "translation": "UCE Giouli的猴子",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames237",
+    "original": "UCE Leppänen",
+    "translation": "UCE Leppänen",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames238",
+    "original": "The Jæja",
+    "translation": "杰亚人",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames239",
+    "original": "UCE Rhapsody",
+    "translation": "UCE狂想曲",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames240",
+    "original": "The Old Izergil",
+    "translation": "老伊泽吉尔",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames241",
+    "original": "The Lazar",
+    "translation": "拉扎尔号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames242",
+    "original": "UCE Melancholy Budapest",
+    "translation": "UCE Melancholy Budapest",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames243",
+    "original": "The Kingston's Cake",
+    "translation": "金士顿的蛋糕",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames244",
+    "original": "The Innell",
+    "translation": "英奈尔",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames245",
+    "original": "The Eadem Mutata Resurgo",
+    "translation": "Eadem Mutata Resurgo",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames246",
+    "original": "The Riddlebird",
+    "translation": "谜之鸟",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames247",
+    "original": "UCE Roanoke",
+    "translation": "罗阿诺克大学",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames248",
+    "original": "The Lamira",
+    "translation": "拉米拉号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames249",
+    "original": "The Canteri",
+    "translation": "坎特里号",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames250",
+    "original": "The Bidmead",
+    "translation": "卑弥呼",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames251",
+    "original": "The Nothing's Easy",
+    "translation": "没有什么是容易的",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames252",
+    "original": "The Per Aspera ad Astra",
+    "translation": "每一个Aspera ad Astra",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames253",
+    "original": "The Tenebrous",
+    "translation": "腾博会官网诚信为本",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames254",
+    "original": "The Oblique Strategies",
+    "translation": "倾斜的策略",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames255",
+    "original": "Traitor's Wood",
+    "translation": "叛徒之林",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames256",
+    "original": "The Ten Thousand Streams",
+    "translation": "万水千山",
+    "stage": 1
+  },
+  {
+    "key": "z_shipnames257",
+    "original": "UCE Destiny",
+    "translation": "UCE的命运",
+    "stage": 1
+  }
+]

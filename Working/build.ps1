@@ -111,6 +111,25 @@ foreach ($file in $translationFiles) {
     }
 }
 
+# 复制 ParaTranz JSON 翻译文件夹
+Write-Step "Copying ParaTranz translations..."
+$paraSrcDir = "$PSScriptRoot\..\para"
+$paraDestDir = "$PluginsDir\para"
+if (Test-Path $paraSrcDir) {
+    if (-not (Test-Path $paraDestDir)) {
+        New-Item -ItemType Directory -Path $paraDestDir -Force | Out-Null
+    }
+    $jsonFiles = Get-ChildItem $paraSrcDir -Filter "*.json"
+    $count = 0
+    foreach ($file in $jsonFiles) {
+        Copy-Item $file.FullName $paraDestDir -Force
+        $count++
+    }
+    Write-OK "Copied $count JSON files to para/"
+} else {
+    Write-Info "Skipped para/ (folder not found at $paraSrcDir)"
+}
+
 # 检查插件是否已部署
 Write-Step "Plugin status:"
 $pluginDll = "$PluginsDir\SskCnPoc.dll"

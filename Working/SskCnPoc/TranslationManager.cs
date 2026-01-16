@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using BepInEx;
 
 namespace SskCnPoc;
@@ -29,18 +31,162 @@ internal static class TranslationManager
     private static readonly object _cacheLock = new();
 
     /// <summary>
-    /// 从配置文件加载翻译
+    /// 加载翻译：优先加载 ParaTranz JSON，回退到旧格式 txt
     /// </summary>
     public static void LoadTranslations()
+    {
+        var sw = Stopwatch.StartNew();
+        
+        // 优先加载 ParaTranz JSON 文件
+        string paraDir = Path.Combine(Paths.PluginPath, "para");
+        if (Directory.Exists(paraDir))
+        {
+            LoadParaTranzJson(paraDir);
+        }
+        
+        // 加载旧格式 txt（可用于覆盖或补充）
+        LoadLegacyTxt();
+        
+        sw.Stop();
+        Plugin.LogSrc.LogInfo($"Translation loading completed in {sw.ElapsedMilliseconds}ms");
+    }
+
+    /// <summary>
+    /// 加载 ParaTranz 格式的 JSON 翻译文件
+    /// </summary>
+    private static void LoadParaTranzJson(string paraDir)
+    {
+        var sw = Stopwatch.StartNew();
+        int totalCount = 0;
+        int skippedCount = 0;
+        
+        var jsonFiles = Directory.GetFiles(paraDir, "*.json");
+        
+        foreach (var jsonFile in jsonFiles)
+        {
+            try
+            {
+                var (loaded, skipped) = LoadSingleJsonFile(jsonFile);
+                totalCount += loaded;
+                skippedCount += skipped;
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSrc.LogWarning($"Failed to load {Path.GetFileName(jsonFile)}: {ex.Message}");
+            }
+        }
+        
+        sw.Stop();
+        Plugin.LogSrc.LogInfo($"Loaded {totalCount} translations from ParaTranz JSON in {sw.ElapsedMilliseconds}ms (skipped {skippedCount} empty/untranslated)");
+    }
+
+    /// <summary>
+    /// 加载单个 JSON 文件
+    /// </summary>
+    private static (int loaded, int skipped) LoadSingleJsonFile(string jsonFile)
+    {
+        int loaded = 0;
+        int skipped = 0;
+        
+        // 使用流式读取，避免一次性加载整个文件到字符串
+        using var stream = File.OpenRead(jsonFile);
+        using var doc = JsonDocument.Parse(stream, new JsonDocumentOptions
+        {
+            AllowTrailingCommas = true,
+            CommentHandling = JsonCommentHandling.Skip
+        });
+
+        foreach (var element in doc.RootElement.EnumerateArray())
+        {
+            // 获取 original 和 translation
+            if (!element.TryGetProperty("original", out var originalProp) ||
+                !element.TryGetProperty("translation", out var translationProp))
+            {
+                skipped++;
+                continue;
+            }
+
+            var original = originalProp.GetString();
+            var translation = translationProp.GetString();
+
+            // 跳过空翻译或未翻译的条目
+            if (string.IsNullOrEmpty(original) || 
+                string.IsNullOrEmpty(translation) ||
+                original == translation)  // 未翻译
+            {
+                skipped++;
+                continue;
+            }
+
+            // 去除首尾空格
+            original = original.Trim();
+            translation = translation.Trim();
+
+            if (original.Length == 0 || translation.Length == 0)
+            {
+                skipped++;
+                continue;
+            }
+
+            // 处理模板翻译（包含 {0} 占位符）
+            if (original.Contains("{0}") && translation.Contains("{0}"))
+            {
+                AddTemplateEntry(original, translation);
+            }
+            else
+            {
+                // 精确匹配
+                Map[original] = translation;
+            }
+            
+            loaded++;
+        }
+
+        return (loaded, skipped);
+    }
+
+    /// <summary>
+    /// 添加模板翻译条目
+    /// </summary>
+    private static void AddTemplateEntry(string original, string translation)
+    {
+        int placeholderIdx = original.IndexOf("{0}");
+        string prefix = original.Substring(0, placeholderIdx);
+        string suffix = original.Substring(placeholderIdx + 3);
+        
+        if (prefix.Length > 0)
+        {
+            // 有前缀，按首字符索引
+            char firstChar = prefix[0];
+            if (!TemplatesByFirstChar.TryGetValue(firstChar, out var list))
+            {
+                list = new List<TemplateEntry>();
+                TemplatesByFirstChar[firstChar] = list;
+            }
+            list.Add(new TemplateEntry(prefix, suffix, translation));
+        }
+        else if (suffix.Length > 0)
+        {
+            // 前缀为空（{0}在句首），存入特殊列表
+            TemplatesWithEmptyPrefix.Add(new TemplateEntry(prefix, suffix, translation));
+        }
+    }
+
+    /// <summary>
+    /// 加载旧格式 txt 文件（用于覆盖或补充 JSON 翻译）
+    /// </summary>
+    private static void LoadLegacyTxt()
     {
         string path = Path.Combine(Paths.PluginPath, "ssk_cn.txt");
         if (!File.Exists(path))
         {
-            File.WriteAllText(path, @"# 精确匹配
-New Game=新游戏
+            // 创建示例文件
+            File.WriteAllText(path, @"# 精确匹配（可用于覆盖 JSON 中的翻译）
+# New Game=新游戏
 # 模板匹配（使用 {0} 作为参数占位符）
 # Music Volume ({0}):=音乐音量 ({0}):
 ", Encoding.UTF8);
+            return;
         }
 
         int exactCount = 0;
@@ -61,39 +207,20 @@ New Game=新游戏
             
             if (en.Contains("{0}") && zh.Contains("{0}"))
             {
-                // 解析模板
-                int placeholderIdx = en.IndexOf("{0}");
-                string prefix = en.Substring(0, placeholderIdx);
-                string suffix = en.Substring(placeholderIdx + 3);
-                
-                if (prefix.Length > 0)
-                {
-                    // 有前缀，按首字符索引
-                    char firstChar = prefix[0];
-                    if (!TemplatesByFirstChar.TryGetValue(firstChar, out var list))
-                    {
-                        list = new List<TemplateEntry>();
-                        TemplatesByFirstChar[firstChar] = list;
-                    }
-                    list.Add(new TemplateEntry(prefix, suffix, zh));
-                    templateCount++;
-                }
-                else if (suffix.Length > 0)
-                {
-                    // 前缀为空（{0}在句首），存入特殊列表
-                    TemplatesWithEmptyPrefix.Add(new TemplateEntry(prefix, suffix, zh));
-                    templateCount++;
-                    Plugin.LogSrc.LogInfo($"Loaded empty-prefix template: suffix='{suffix}'");
-                }
+                AddTemplateEntry(en, zh);
+                templateCount++;
             }
             else
             {
-                Map[en] = zh;
+                Map[en] = zh;  // 会覆盖 JSON 中的翻译
                 exactCount++;
             }
         }
 
-        Plugin.LogSrc.LogInfo($"Loaded translations: {exactCount} exact, {templateCount} templates");
+        if (exactCount > 0 || templateCount > 0)
+        {
+            Plugin.LogSrc.LogInfo($"Loaded from txt override: {exactCount} exact, {templateCount} templates");
+        }
     }
 
     /// <summary>

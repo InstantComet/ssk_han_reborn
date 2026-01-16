@@ -1,0 +1,230 @@
+[
+  {
+    "key": "1$Hint",
+    "original": "Sending out your scout will cost Supplies.",
+    "translation": "派出侦察兽会消耗一部分补给。",
+    "stage": 9
+  },
+  {
+    "key": "2$Hint",
+    "original": "When you are overheated, you cannot dodge.",
+    "translation": "机车过热时，无法向左右躲避。",
+    "stage": 9
+  },
+  {
+    "key": "3$Hint",
+    "original": "When you are overheated, firing your weapons will damage your engine.",
+    "translation": "机车过热时，武器开火将损伤车体。",
+    "stage": 9
+  },
+  {
+    "key": "4$Hint",
+    "original": "The more Crew you have, the more Supplies you consume.",
+    "translation": "你拥有的列车员越多，物资消耗就越快。",
+    "stage": 9
+  },
+  {
+    "key": "5$Hint",
+    "original": "Different weapons generate different amounts of heat.",
+    "translation": "不同的武器，开火时产生的热量不同。",
+    "stage": 9
+  },
+  {
+    "key": "6$Hint",
+    "original": "Visit the Bazaar at Stations to find Prospects and Bargains, and make your fortune!",
+    "translation": "各处车站的巴扎有时会出现低买高卖的机遇，别忘了去那里看看！",
+    "stage": 9
+  },
+  {
+    "key": "7$Hint",
+    "original": "Fuel Efficiency affects how long your Fuel lasts. Some locomotives are more efficient than others.",
+    "translation": "燃料效率影响燃料消耗的速度。某些机车会更省燃料。",
+    "stage": 9
+  },
+  {
+    "key": "8$Hint",
+    "original": "The weight of your cargo affects Fuel Efficiency. The more you carry, the more Fuel you'll need.",
+    "translation": "舱内的货物重量影响燃料效率。总重越大，燃料消耗越快。",
+    "stage": 9
+  },
+  {
+    "key": "9$Hint",
+    "original": "Look out for Horrors, which cause Terror to rise more quickly, and Wonders, which reduce it.",
+    "translation": "小心会使恐惧加速升高的怖景，留神会降低恐惧的奇观。",
+    "stage": 9
+  },
+  {
+    "key": "10$Hint",
+    "original": "In order to interact with certain discoveries, your locomotive will need appropriate equipment.",
+    "translation": "如果要与特定地点互动，机车需要安装相应的装备。",
+    "stage": 9
+  },
+  {
+    "key": "11$Hint",
+    "original": "Don't let Terror reach 100.",
+    "translation": "别让恐惧到达100点。",
+    "stage": 9
+  },
+  {
+    "key": "12$Hint",
+    "original": "If you run out of both Supplies and Crew, you will die.",
+    "translation": "如果你失去了全部的补给与列车员，游戏便会结束。",
+    "stage": 9
+  },
+  {
+    "key": "13$Hint",
+    "original": "Many enemies react to your headlight. Turning it off will make you less noticeable, but causes Terror to increase quickly.",
+    "translation": "车灯开启时，会吸引各种敌人的注意；车灯关闭时，敌人会更难发现你，但恐惧会加速升高。",
+    "stage": 9
+  },
+  {
+    "key": "14$Hint",
+    "original": "Shining your headlight on a vessel or a creature will reveal its name.",
+    "translation": "车灯开启时，灯光照在其他机车或生物身上可以显示其名称。",
+    "stage": 9
+  },
+  {
+    "key": "15$Hint",
+    "original": "If your headlight can pass over or under an object, so can you.",
+    "translation": "如果车灯的灯光可以从某个场景的上方或下方穿过，则机车也可以通过。",
+    "stage": 9
+  },
+  {
+    "key": "16$Hint",
+    "original": "In Eleutheria, some enemies will attack you if your headlight is on. Others will attack you if it is off.",
+    "translation": "在厄琉忒里亚，开启车灯会吸引某些敌人攻击，关闭车灯则会吸引另一些敌人攻击。",
+    "stage": 9
+  },
+  {
+    "key": "17$Hint",
+    "original": "On long journeys, activate your locomotive's cruise control.",
+    "translation": "在长途旅行中，可以启动机车的巡航控制，自动前进。",
+    "stage": 9
+  },
+  {
+    "key": "18$Hint",
+    "original": "Don't forget to dodge! Dodging is crucial to survival in combat.",
+    "translation": "战斗中别忘了向左右躲避！这能大幅提高你的生存几率。",
+    "stage": 9
+  },
+  {
+    "key": "19$Hint",
+    "original": "Locomotives with white running lights are not hostile.",
+    "translation": "车灯呈白色的机车不会攻击你。",
+    "stage": 9
+  },
+  {
+    "key": "20$Hint",
+    "original": "Once every 15 minutes, visiting a region's hub port will reduce your Terror.",
+    "translation": "每隔15分钟，你便可以造访所在空域的中心车站来降低恐惧。",
+    "stage": 9
+  },
+  {
+    "key": "21$Hint",
+    "original": "Discovering a new port for the first time will reduce your Terror.",
+    "translation": "首次发现新车站时，你的恐惧会降低。",
+    "stage": 9
+  },
+  {
+    "key": "22$Hint",
+    "original": "Enemies won't pursue you forever. If you are outmatched, try running away.",
+    "translation": "敌人不会一直追击你。如果敌众我寡，不妨溜之大吉。",
+    "stage": 9
+  },
+  {
+    "key": "23$Hint",
+    "original": "Experience gained from discovering landmarks is passed on to all your future captains.",
+    "translation": "通过发现地标获得的经验会传承给世系的所有车长。",
+    "stage": 9
+  },
+  {
+    "key": "24$Hint",
+    "original": "Your Affiliations can unlock new Bargains and Prospects. They also determine which items your next captain inherits.",
+    "translation": "你的人脉会影响车站中低买与高卖的机遇类型，还会影响下一任车长可以继承的物品。",
+    "stage": 9
+  },
+  {
+    "key": "25$Hint",
+    "original": "A glowing arrow on your character portrait means you are ready to level up.",
+    "translation": "当右下角的头像旁出现发光箭头时，你就可以升级主角。",
+    "stage": 9
+  },
+  {
+    "key": "26$Hint",
+    "original": "If you run out of Fuel, you may be able to burn something else.",
+    "translation": "当燃料用光时，你可以试试烧点别的东西。",
+    "stage": 9
+  },
+  {
+    "key": "27$Hint",
+    "original": "Keep your locomotive well crewed, or face difficult choices about which parts of it to maintain.",
+    "translation": "记得在机车上保持充足的人手，否则你将面临艰难的决策。",
+    "stage": 9
+  },
+  {
+    "key": "28$Hint",
+    "original": "When planning a journey, check your chart for Stations that sell Supplies and Fuel. Not all supply both.",
+    "translation": "规划航线时，记得检查沿途车站售卖哪些物资。并非所有车站都同时售卖补给与燃料。",
+    "stage": 9
+  },
+  {
+    "key": "29$Hint",
+    "original": "The Reach's sun - the Garden-King - died long ago. Its domains have run wild.",
+    "translation": "花园王是外野的太阳，早已熄灭。其疆域就此荒芜。",
+    "stage": 9
+  },
+  {
+    "key": "30$Hint",
+    "original": "Londoners first arrived in the heavens through the Avid Horizon. Look for it in Albion.",
+    "translation": "渴求之地平线是伦敦人最初抵达天穹时的门户。你可以在阿尔比恩找到它。",
+    "stage": 9
+  },
+  {
+    "key": "31$Hint",
+    "original": "When London came to the heavens it conquered Albion's Sun - the King of Hours - and built a clockwork replacement.",
+    "translation": "抵达天穹后，伦敦政权征服了时刻王，即阿尔比恩的太阳，并修建发条太阳将其取代。",
+    "stage": 9
+  },
+  {
+    "key": "32$Hint",
+    "original": "The sun of Eleutheria has turned against its peers and plunged its domains into lawless night.",
+    "translation": "厄琉忒里亚的太阳背叛了同胞，将自己的疆域拖入无序的永夜。",
+    "stage": 9
+  },
+  {
+    "key": "33$Hint",
+    "original": "The sun of the Blue Kingdom reigns over the domains of the dead in splendour and majesty.",
+    "translation": "蓝色王国的太阳以其宏伟辉煌之姿统御着死者的国度。",
+    "stage": 9
+  },
+  {
+    "key": "34$Hint",
+    "original": "In the Blue Kingdom you may encounter the Convictions of the Sapphire'd King: rays of thought from the sun's own brow.",
+    "translation": "你能在蓝色王国遇到蓝宝石之王的信念，那是源自太阳的缕缕思绪。",
+    "stage": 9
+  },
+  {
+    "key": "35$Hint",
+    "original": "Eleutheria's celestial library was sundered long ago. If you raid its remains, beware of Scrive-Spinsters.",
+    "translation": "厄琉忒里亚的天界书库早已四分五裂。如果你想搜刮其遗址，记得提防在附近游荡的纺书人。",
+    "stage": 9
+  },
+  {
+    "key": "36$Hint",
+    "original": "You can use Otherworldly Artefacts to open Vaults in the Blue Kingdom.",
+    "translation": "你可以使用异界遗物打开蓝色王国的地窖。",
+    "stage": 9
+  },
+  {
+    "key": "37$Hint",
+    "original": "Enemies that ram can be persuaded to crash into terrain, or even other enemies.",
+    "translation": "可通过巧妙引导，让冲撞型敌人撞向地形障碍，甚至撞上其他敌人。",
+    "stage": 9
+  },
+  {
+    "key": "38$Hint",
+    "original": "Chorister-Bees will always attack if you are carrying chorister-nectar.",
+    "translation": "机车上携带唱诗蜂蜜时，便会遭到唱诗蜂的攻击。",
+    "stage": 9
+  }
+]

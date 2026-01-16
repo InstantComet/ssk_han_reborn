@@ -1,0 +1,326 @@
+[
+  {
+    "key": "1$LM_London",
+    "original": "Crown & Misery Yards",
+    "translation": "皇冠与苦难机车厂",
+    "stage": 5
+  },
+  {
+    "key": "2$LM_London",
+    "original": "Edies Promise",
+    "translation": "艾迪之诺",
+    "stage": 5
+  },
+  {
+    "key": "3$LM_London",
+    "original": "Horological Office",
+    "translation": "时计部",
+    "stage": 5
+  },
+  {
+    "key": "4$LM_London",
+    "original": "Laidlaw's Coffee House",
+    "translation": "莱德劳咖啡厅",
+    "stage": 5
+  },
+  {
+    "key": "5$LM_London",
+    "original": "Ministry of Public Decency",
+    "translation": "公德部",
+    "stage": 5
+  },
+  {
+    "key": "6$LM_London",
+    "original": "Rosenbaum's Consequence",
+    "translation": "罗森鲍姆的后果",
+    "stage": 5
+  },
+  {
+    "key": "7$LM_London",
+    "original": "Sapphire & Steel Yards",
+    "translation": "蓝宝石&钢铁机车场",
+    "stage": 5
+  },
+  {
+    "key": "8$LM_London",
+    "original": "Simon's Nest",
+    "translation": "西蒙之巢",
+    "stage": 5
+  },
+  {
+    "key": "9$LM_London",
+    "original": "Spitalfields Market",
+    "translation": "斯皮塔菲尔德市场",
+    "stage": 5
+  },
+  {
+    "key": "10$LM_London",
+    "original": "St Dominic's Station",
+    "translation": "圣多米尼克站",
+    "stage": 5
+  },
+  {
+    "key": "11$LM_London",
+    "original": "The Patient Princess",
+    "translation": "耐心的公主",
+    "stage": 5
+  },
+  {
+    "key": "12$LM_London",
+    "original": "The Throne of Hours",
+    "translation": "时间王座",
+    "stage": 5
+  },
+  {
+    "key": "13$LM_London",
+    "original": "Wit & Vinegar Lumber Company",
+    "translation": "尖酸&狡黠木材公司",
+    "stage": 5
+  },
+  {
+    "key": "1$LM_NewWinchester",
+    "original": "Alexander Yang Claim",
+    "translation": "亚历山大·杨领地",
+    "stage": 5
+  },
+  {
+    "key": "2$LM_NewWinchester",
+    "original": "Bancroft's Forum",
+    "translation": "班克罗夫特论政广场",
+    "stage": 5
+  },
+  {
+    "key": "3$LM_NewWinchester",
+    "original": "Cantor's Still",
+    "translation": "坎托之寂",
+    "stage": 5
+  },
+  {
+    "key": "4$LM_NewWinchester",
+    "original": "Company House",
+    "translation": "公司大楼",
+    "stage": 5
+  },
+  {
+    "key": "5$LM_NewWinchester",
+    "original": "Gabriel's Archive",
+    "translation": "加百列档案馆",
+    "stage": 5
+  },
+  {
+    "key": "6$LM_NewWinchester",
+    "original": "Hodge's Crucible",
+    "translation": "霍奇坩埚",
+    "stage": 5
+  },
+  {
+    "key": "7$LM_NewWinchester",
+    "original": "Kisigar Gardens",
+    "translation": "基西加尔花园",
+    "stage": 5
+  },
+  {
+    "key": "8$LM_NewWinchester",
+    "original": "Longknuckle Pass",
+    "translation": "长指航道",
+    "stage": 5
+  },
+  {
+    "key": "9$LM_NewWinchester",
+    "original": "Riekstead",
+    "translation": "里克斯泰德",
+    "stage": 5
+  },
+  {
+    "key": "10$LM_NewWinchester",
+    "original": "Scamps Narrow",
+    "translation": "浪童隘口",
+    "stage": 5
+  },
+  {
+    "key": "11$LM_NewWinchester",
+    "original": "Trappisto's Hurry",
+    "translation": "特拉皮斯托的疾行路",
+    "stage": 5
+  },
+  {
+    "key": "12$LM_NewWinchester",
+    "original": "Victory Hall",
+    "translation": "常胜厅",
+    "stage": 5
+  },
+  {
+    "key": "13$LM_NewWinchester",
+    "original": "Youngsfound",
+    "translation": "杨氏标地",
+    "stage": 5
+  },
+  {
+    "key": "1$LM_Pan",
+    "original": "Bargainer's Bridge",
+    "translation": "商人桥",
+    "stage": 5
+  },
+  {
+    "key": "2$LM_Pan",
+    "original": "Calumner's Channel",
+    "translation": "卡鲁姆水道",
+    "stage": 5
+  },
+  {
+    "key": "3$LM_Pan",
+    "original": "Farynor Hill",
+    "translation": "法里诺山",
+    "stage": 5
+  },
+  {
+    "key": "4$LM_Pan",
+    "original": "Heart-Catcher Gardens",
+    "translation": "捕心花园",
+    "stage": 5
+  },
+  {
+    "key": "5$LM_Pan",
+    "original": "New Elpis",
+    "translation": "新埃尔庇斯",
+    "stage": 5
+  },
+  {
+    "key": "6$LM_Pan",
+    "original": "Oathbreaker's Circle",
+    "translation": "破誓者之环",
+    "stage": 5
+  },
+  {
+    "key": "7$LM_Pan",
+    "original": "Phosphor's Mourn",
+    "translation": "晨星的哀悼",
+    "stage": 5
+  },
+  {
+    "key": "8$LM_Pan",
+    "original": "Stainer's Square",
+    "translation": "斯坦纳广场",
+    "stage": 5
+  },
+  {
+    "key": "9$LM_Pan",
+    "original": "The Binding Tables",
+    "translation": "缚约板岩",
+    "stage": 5
+  },
+  {
+    "key": "10$LM_Pan",
+    "original": "The Brazen Brigade",
+    "translation": "黄铜大队",
+    "stage": 5
+  },
+  {
+    "key": "11$LM_Pan",
+    "original": "The Cypress King's Grove",
+    "translation": "柏树王之林",
+    "stage": 5
+  },
+  {
+    "key": "12$LM_Pan",
+    "original": "The Forgone Arch",
+    "translation": "弃绝拱门",
+    "stage": 5
+  },
+  {
+    "key": "13$LM_Pan",
+    "original": "The Knave",
+    "translation": "匪地",
+    "stage": 5
+  },
+  {
+    "key": "14$LM_Pan",
+    "original": "The Selenium",
+    "translation": "硒地",
+    "stage": 5
+  },
+  {
+    "key": "15$LM_Pan",
+    "original": "The Whistling Apse",
+    "translation": "哨音后殿",
+    "stage": 5
+  },
+  {
+    "key": "16$LM_Pan",
+    "original": "Winter's Reside",
+    "translation": "冬日之居",
+    "stage": 5
+  },
+  {
+    "key": "14$LM_London",
+    "original": "The Glass House",
+    "translation": "玻璃房",
+    "stage": 5
+  },
+  {
+    "key": "15$LM_London",
+    "original": "Azimuth",
+    "translation": "方位厅",
+    "stage": 5
+  },
+  {
+    "key": "16$LM_London",
+    "original": "Sunspur",
+    "translation": "日脊",
+    "stage": 5
+  },
+  {
+    "key": "17$LM_London",
+    "original": "Caendryl's Find",
+    "translation": "卡恩德利标地",
+    "stage": 5
+  },
+  {
+    "key": "18$LM_London",
+    "original": "Burratto's Loom",
+    "translation": "布拉托之峣",
+    "stage": 5
+  },
+  {
+    "key": "19$LM_London",
+    "original": "The Bright Night Benefice",
+    "translation": "明夜封地",
+    "stage": 5
+  },
+  {
+    "key": "20$LM_London",
+    "original": "Hostrop Deep",
+    "translation": "霍斯卓深渊",
+    "stage": 5
+  },
+  {
+    "key": "21$LM_London",
+    "original": "Patchett Sound",
+    "translation": "帕切特峡",
+    "stage": 5
+  },
+  {
+    "key": "22$LM_London",
+    "original": "The Supralapsarians",
+    "translation": "宿命论者",
+    "stage": 5
+  },
+  {
+    "key": "23$LM_London",
+    "original": "The Sanctified",
+    "translation": "圣化结会",
+    "stage": 5
+  },
+  {
+    "key": "24$LM_London",
+    "original": "The Displeased",
+    "translation": "不悦离人",
+    "stage": 5
+  },
+  {
+    "key": "25$LM_London",
+    "original": "Millersmith Sound",
+    "translation": "米勒史密斯峡",
+    "stage": 5
+  }
+]
