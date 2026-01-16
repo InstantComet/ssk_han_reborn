@@ -62,7 +62,7 @@
   {
     "key": "menu_graphics_1",
     "original": "Graphics",
-    "translation": "图形",
+    "translation": "图像选项",
     "stage": 5
   },
   {
@@ -98,7 +98,7 @@
   {
     "key": "menu_graphics_7",
     "original": "Transparent UI",
-    "translation": "透明界面",
+    "translation": "透明UI",
     "stage": 5
   },
   {
@@ -164,14 +164,14 @@
   {
     "key": "menu_controls_2",
     "original": "Gamepad Options",
-    "translation": "手柄选项",
+    "translation": "游戏手柄选项",
     "stage": 5
   },
   {
     "key": "menu_controls_3",
     "original": "Gamepad:",
-    "translation": "手柄:",
-    "stage": 5
+    "translation": "游戏手柄：",
+    "stage": 1
   },
   {
     "key": "menu_controls_4",
@@ -530,13 +530,13 @@
   {
     "key": "menu_panel_3",
     "original": "Toggle Officers",
-    "translation": "切换军官",
+    "translation": "切换车务官",
     "stage": 5
   },
   {
     "key": "menu_panel_4",
     "original": "Toggle Profile",
-    "translation": "切换档案",
+    "translation": "切换概览",
     "stage": 5
   },
   {
@@ -560,7 +560,7 @@
   {
     "key": "menu_panel_8",
     "original": "Officers",
-    "translation": "军官",
+    "translation": "车务官",
     "stage": 5
   },
   {
@@ -704,7 +704,7 @@
   {
     "key": "menu_gamepad_8",
     "original": "Send Scout",
-    "translation": "派出侦察兵",
+    "translation": "派出侦察兽",
     "stage": 5
   },
   {
@@ -890,7 +890,7 @@
   {
     "key": "menu_report_1",
     "original": "Press        to send out your scout(costs Supplies)",
-    "translation": "按下        派出你的侦察兵（花费补给）",
+    "translation": "按下        派出你的侦察兽（花费补给）",
     "stage": 5
   },
   {
@@ -944,7 +944,7 @@
   {
     "key": "menu_report_10",
     "original": "If you're definitely online, please try again later – thanks for taking the time to make a report, and sorry for the trouble.",
-    "translation": "如果您确实在线，请稍后重试–感谢您抽出时间报告，对于麻烦表示歉意。",
+    "translation": "如果您确实在线，请稍后重试 – 感谢您抽出时间报告，对于麻烦表示歉意。",
     "stage": 5
   },
   {
@@ -1004,7 +1004,7 @@
   {
     "key": "menu_misc_2",
     "original": "Narrative Issue – Includes typos, story progression, journal inconsistencies.",
-    "translation": "叙事问题–包括拼写错误、故事进展、日志不一致。",
+    "translation": "叙事问题 – 包括拼写错误、故事进展、日志不一致。",
     "stage": 5
   },
   {
@@ -1022,7 +1022,7 @@
   {
     "key": "menu_misc_5",
     "original": "VERSION VERSION",
-    "translation": "版本 版本",
+    "translation": "VERSION VERSION",
     "stage": 5
   }
 ]
