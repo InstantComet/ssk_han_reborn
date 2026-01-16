@@ -14,17 +14,24 @@ internal static class HarmonyPatches
     [ThreadStatic] private static bool _isSettingTmpText;
     [ThreadStatic] private static bool _isSettingUguiText;
 
+    private static bool _tmpPatched;
+    private static bool _uguiPatched;
+    
     /// <summary>
     /// 注册所有 Harmony Patches
     /// </summary>
     public static bool ApplyAll(Harmony harmony)
     {
-        bool tmpPatched = PatchTmp(harmony);
-        bool uguiPatched = PatchUgui(harmony);
+        if (!_tmpPatched)
+            _tmpPatched = PatchTmp(harmony);
+        if (!_uguiPatched)
+            _uguiPatched = PatchUgui(harmony);
         bool canvasPatched = PatchCanvas(harmony);
         
-        Plugin.LogSrc.LogInfo($"Patched: TMP={tmpPatched}, UGUI={uguiPatched}, Canvas={canvasPatched}");
-        return tmpPatched || uguiPatched;
+        Plugin.LogSrc.LogInfo($"Patched: TMP={_tmpPatched}, UGUI={_uguiPatched}, Canvas={canvasPatched}");
+        
+        // TMP 是主要的文本组件，必须成功 patch
+        return _tmpPatched;
     }
 
     #region TMP Patches
@@ -33,56 +40,90 @@ internal static class HarmonyPatches
     {
         try
         {
-            var tmpType = FindTmpType();
-            if (tmpType == null) return false;
+            // 直接使用编译时类型，不需要动态查找
+            var tmpType = typeof(TMP_Text);
+            Plugin.LogSrc.LogInfo($"TMP_Text type: {tmpType?.FullName ?? "null"}");
+            
+            if (tmpType == null) 
+            {
+                Plugin.LogSrc.LogWarning("TMP_Text type is null");
+                return false;
+            }
 
             var prefix = AccessTools.Method(typeof(HarmonyPatches), nameof(TmpPrefix));
             var postfix = AccessTools.Method(typeof(HarmonyPatches), nameof(TmpPostfix));
+            
+            if (prefix == null || postfix == null)
+            {
+                Plugin.LogSrc.LogWarning($"Methods not found: prefix={prefix != null}, postfix={postfix != null}");
+                return false;
+            }
+            
             int count = 0;
 
             // Patch SetText(string)
-            foreach (var m in tmpType.GetMethods().Where(m => m.Name == "SetText" && m.GetParameters().Length == 1))
+            var setTextMethods = tmpType.GetMethods().Where(m => m.Name == "SetText" && m.GetParameters().Length == 1).ToList();
+            Plugin.LogSrc.LogInfo($"Found {setTextMethods.Count} SetText(string) methods");
+            foreach (var m in setTextMethods)
             {
-                harmony.Patch(m, prefix: new HarmonyMethod(prefix), postfix: new HarmonyMethod(postfix));
-                count++;
+                try
+                {
+                    harmony.Patch(m, prefix: new HarmonyMethod(prefix), postfix: new HarmonyMethod(postfix));
+                    count++;
+                }
+                catch (Exception ex)
+                {
+                    Plugin.LogSrc.LogWarning($"Failed to patch SetText: {ex.Message}");
+                }
             }
 
             // Patch text property setter
-            var textSetter = tmpType.GetProperty("text")?.GetSetMethod();
+            var textProp = tmpType.GetProperty("text");
+            Plugin.LogSrc.LogInfo($"text property: {textProp?.Name ?? "null"}");
+            var textSetter = textProp?.GetSetMethod();
             if (textSetter != null)
             {
-                harmony.Patch(textSetter, prefix: new HarmonyMethod(prefix), postfix: new HarmonyMethod(postfix));
-                count++;
+                try
+                {
+                    harmony.Patch(textSetter, prefix: new HarmonyMethod(prefix), postfix: new HarmonyMethod(postfix));
+                    count++;
+                    Plugin.LogSrc.LogInfo("✓ Patched text setter");
+                }
+                catch (Exception ex)
+                {
+                    Plugin.LogSrc.LogWarning($"Failed to patch text setter: {ex.Message}");
+                }
+            }
+            else
+            {
+                Plugin.LogSrc.LogWarning("text setter is null");
             }
 
             // Patch SetCharArray and multi-param SetText (postfix only)
             foreach (var m in tmpType.GetMethods().Where(m => m.Name == "SetCharArray" || (m.Name == "SetText" && m.GetParameters().Length > 1)))
             {
-                harmony.Patch(m, postfix: new HarmonyMethod(postfix));
-                count++;
+                try
+                {
+                    harmony.Patch(m, postfix: new HarmonyMethod(postfix));
+                    count++;
+                }
+                catch { }
             }
 
-            Plugin.LogSrc.LogInfo($"✓ Patched {count} TMP methods");
+            Plugin.LogSrc.LogInfo($"✓ Patched {count} TMP methods total");
             return count > 0;
         }
         catch (Exception ex)
         {
-            Plugin.LogSrc.LogWarning($"PatchTmp error: {ex.Message}");
+            Plugin.LogSrc.LogWarning($"PatchTmp error: {ex.Message}\n{ex.StackTrace}");
             return false;
         }
     }
 
     private static Type? FindTmpType()
     {
-        foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
-        {
-            var name = asm.GetName().Name;
-            if (name != null && (name.StartsWith("System") || name.StartsWith("Microsoft") || name.StartsWith("mscorlib")))
-                continue;
-            var t = asm.GetType("TMPro.TMP_Text", false);
-            if (t != null) return t;
-        }
-        return null;
+        // 不再需要，直接使用 typeof(TMP_Text)
+        return typeof(TMP_Text);
     }
 
     private static bool TmpPrefix(TMP_Text __instance, string __0)

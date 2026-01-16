@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Reflection;
 using System.Text;
 
@@ -243,7 +244,7 @@ public partial class MainForm : Form
             Log("========================================", Color.Cyan);
 
             MessageBox.Show(
-                "汉化补丁安装成功!\n\n请确保已安装 BepInEx，然后启动游戏即可。",
+                "汉化补丁安装成功!\n\n现在可以启动游戏体验中文了。\n\n首次启动需要较长时间生成缓存，请耐心等待。",
                 "安装完成",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -267,22 +268,24 @@ public partial class MainForm : Form
         var paraDir = Path.Combine(pluginsDir, "para");
         var fontsDir = Path.Combine(pluginsDir, "Fonts");
 
-        // 步骤 1: 检查 BepInEx
+        // 步骤 1: 检查并安装 BepInEx
         UpdateStatus("检查 BepInEx...", Color.White);
-        Log("检查 BepInEx 安装...", Color.White);
+        Log("检查 BepInEx 安装状态...", Color.White);
         await Task.Delay(100);
 
         var bepinexDir = Path.Combine(gamePath, "BepInEx");
-        if (!Directory.Exists(bepinexDir))
+        var bepinexCoreDir = Path.Combine(bepinexDir, "core");
+        
+        if (!Directory.Exists(bepinexCoreDir))
         {
-            Log("警告: 未检测到 BepInEx，将创建插件目录结构", Color.Yellow);
-            Log("请确保已安装 BepInEx 6.0 (IL2CPP 版)", Color.Yellow);
+            Log("未检测到 BepInEx，开始安装...", Color.Yellow);
+            await InstallBepInEx(gamePath);
         }
         else
         {
-            Log("✓ 检测到 BepInEx", Color.LightGreen);
+            Log("✓ 已检测到 BepInEx", Color.LightGreen);
         }
-        progressBar.Value = 10;
+        progressBar.Value = 25;
 
         // 步骤 2: 创建目录
         UpdateStatus("创建目录...", Color.White);
@@ -292,10 +295,10 @@ public partial class MainForm : Form
         Directory.CreateDirectory(paraDir);
         Directory.CreateDirectory(fontsDir);
         
-        Log($"  plugins: {pluginsDir}", Color.Gray);
-        Log($"  para: {paraDir}", Color.Gray);
-        Log($"  Fonts: {fontsDir}", Color.Gray);
-        progressBar.Value = 20;
+        Log($"  ✓ plugins 目录", Color.Gray);
+        Log($"  ✓ para 目录", Color.Gray);
+        Log($"  ✓ Fonts 目录", Color.Gray);
+        progressBar.Value = 30;
 
         // 步骤 3: 备份 (如果需要)
         if (chkBackup.Checked)
@@ -303,15 +306,74 @@ public partial class MainForm : Form
             UpdateStatus("备份已有文件...", Color.White);
             await BackupExistingFiles(pluginsDir);
         }
-        progressBar.Value = 30;
+        progressBar.Value = 35;
 
-        // 步骤 4: 释放文件
+        // 步骤 4: 释放汉化文件
         UpdateStatus("释放汉化文件...", Color.White);
         await ExtractEmbeddedResources(pluginsDir, paraDir, fontsDir);
-        progressBar.Value = 90;
+        progressBar.Value = 95;
 
         // 完成
         await Task.Delay(200);
+    }
+
+    private async Task InstallBepInEx(string gamePath)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var bepinexResource = "SskCnInstaller.Resources.BepInEx.BepInEx.zip";
+        
+        using var stream = assembly.GetManifestResourceStream(bepinexResource);
+        if (stream == null)
+        {
+            Log("✗ 错误: 未找到内置的 BepInEx 安装包", Color.Red);
+            throw new Exception("内置 BepInEx 安装包丢失，请重新下载安装程序");
+        }
+
+        Log("  正在解压 BepInEx...", Color.White);
+        
+        // 解压到临时目录
+        var tempDir = Path.Combine(Path.GetTempPath(), $"SskCn_BepInEx_{Guid.NewGuid():N}");
+        Directory.CreateDirectory(tempDir);
+        
+        try
+        {
+            // 先保存 zip 到临时文件
+            var tempZip = Path.Combine(tempDir, "BepInEx.zip");
+            using (var fileStream = File.Create(tempZip))
+            {
+                await stream.CopyToAsync(fileStream);
+            }
+            
+            // 解压
+            ZipFile.ExtractToDirectory(tempZip, tempDir, true);
+            
+            // 复制文件到游戏目录
+            var filesToCopy = Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories)
+                .Where(f => !f.EndsWith(".zip"));
+            
+            int count = 0;
+            foreach (var file in filesToCopy)
+            {
+                var relativePath = file.Substring(tempDir.Length).TrimStart('\\', '/');
+                var destPath = Path.Combine(gamePath, relativePath);
+                
+                var destDir = Path.GetDirectoryName(destPath);
+                if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
+                    Directory.CreateDirectory(destDir);
+                
+                File.Copy(file, destPath, true);
+                count++;
+            }
+            
+            Log($"  ✓ BepInEx 安装完成 ({count} 个文件)", Color.LightGreen);
+        }
+        finally
+        {
+            // 清理临时目录
+            try { Directory.Delete(tempDir, true); } catch { }
+        }
+        
+        await Task.Delay(100);
     }
 
     private async Task BackupExistingFiles(string pluginsDir)
@@ -330,7 +392,8 @@ public partial class MainForm : Form
     {
         var assembly = Assembly.GetExecutingAssembly();
         var resourceNames = assembly.GetManifestResourceNames()
-            .Where(n => n.StartsWith("SskCnInstaller.Resources."))
+            .Where(n => n.StartsWith("SskCnInstaller.Resources.") && 
+                       !n.Contains(".BepInEx."))  // 排除 BepInEx（单独处理）
             .ToArray();
         
         Log($"开始释放资源 ({resourceNames.Length} 个文件)...", Color.White);

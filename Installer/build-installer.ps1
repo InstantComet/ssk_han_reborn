@@ -98,6 +98,19 @@ if (Test-Path $fontBundle) {
     exit 1
 }
 
+# 复制 BepInEx（如果已下载）
+$bepinexZip = "$RootDir\Installer\BepInEx\BepInEx.zip"
+if (Test-Path $bepinexZip) {
+    New-Item -ItemType Directory -Path "$ResourcesDir\BepInEx" -Force | Out-Null
+    Copy-Item $bepinexZip "$ResourcesDir\BepInEx\BepInEx.zip"
+    $size = [math]::Round((Get-Item $bepinexZip).Length / 1MB, 2)
+    Write-OK "Copied BepInEx installer (${size} MB)"
+} else {
+    Write-Err "BepInEx.zip not found at: $bepinexZip"
+    Write-Info "Please download BepInEx IL2CPP x86 version first"
+    exit 1
+}
+
 # 显示 Resources 内容
 Write-Step "Resources prepared:"
 Get-ChildItem $ResourcesDir -Recurse | ForEach-Object {
