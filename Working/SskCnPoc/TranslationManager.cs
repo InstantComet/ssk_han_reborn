@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using BepInEx;
 
 namespace SskCnPoc;
@@ -128,6 +129,28 @@ internal static class TranslationManager
                 continue;
             }
 
+            // 检查是否为嵌套 JSON 格式（VariableDescriptionText 类型）
+            if (original.StartsWith("{") && original.EndsWith("}") &&
+                translation.StartsWith("{") && translation.EndsWith("}"))
+            {
+                int nestedLoaded = LoadNestedJsonTranslations(original, translation);
+                loaded += nestedLoaded;
+                continue;
+            }
+
+            // 规范化文本格式（将 ParaTranz 格式转换为游戏运行时格式）
+            original = NormalizeForGameRuntime(original);
+            translation = NormalizeForGameRuntime(translation);
+
+            // 检查并处理按键绑定格式（如 [<#FFD27C>R</color>] Dock）
+            var (templateOrig, templateTrans) = TryConvertKeyBindingToTemplate(original, translation);
+            if (templateOrig != null && templateTrans != null)
+            {
+                AddTemplateEntry(templateOrig, templateTrans);
+                loaded++;
+                continue;
+            }
+
             // 处理模板翻译（包含 {0} 占位符）
             if (original.Contains("{0}") && translation.Contains("{0}"))
             {
@@ -143,6 +166,121 @@ internal static class TranslationManager
         }
 
         return (loaded, skipped);
+    }
+
+    // 匹配按键绑定格式的正则表达式: [<#HexColor>Key</color>]
+    private static readonly Regex KeyBindingPattern = new(
+        @"^\[<#[0-9A-Fa-f]{6}>(.+?)</color>\]\s*(.+)$",
+        RegexOptions.Compiled);
+
+    /// <summary>
+    /// 尝试将按键绑定格式转换为模板
+    /// 输入: "[&lt;#FFD27C&gt;R&lt;/color&gt;] Dock" -> 模板: "[&lt;#FFD27C&gt;{0}&lt;/color&gt;] Dock"
+    /// </summary>
+    private static (string? templateOrig, string? templateTrans) TryConvertKeyBindingToTemplate(string original, string translation)
+    {
+        var origMatch = KeyBindingPattern.Match(original);
+        if (!origMatch.Success) return (null, null);
+        
+        var transMatch = KeyBindingPattern.Match(translation);
+        if (!transMatch.Success)
+        {
+            // 翻译可能没有空格，尝试更宽松的匹配
+            var loosePattern = new Regex(@"^\[<#[0-9A-Fa-f]{6}>(.+?)</color>\](.*)$");
+            transMatch = loosePattern.Match(translation);
+            if (!transMatch.Success) return (null, null);
+        }
+        
+        // 提取按键和动作名
+        string origKey = origMatch.Groups[1].Value;
+        string origAction = origMatch.Groups[2].Value;
+        string transAction = transMatch.Groups[2].Value.TrimStart();
+        
+        // 生成模板：将按键替换为 {0}
+        // 原文模板: [<#FFD27C>{0}</color>] Dock
+        string templateOrig = $"[<#FFD27C>{{0}}</color>] {origAction}";
+        // 译文模板: [<#FFD27C>{0}</color>]进站
+        string templateTrans = $"[<#FFD27C>{{0}}</color>]{transAction}";
+        
+        return (templateOrig, templateTrans);
+    }
+
+    /// <summary>
+    /// 加载嵌套 JSON 格式的翻译（VariableDescriptionText 类型）
+    /// 格式如：{"Relay":{"1":"text1","0":"text2"}}
+    /// </summary>
+    private static int LoadNestedJsonTranslations(string originalJson, string translationJson)
+    {
+        int loaded = 0;
+        
+        try
+        {
+            using var origDoc = JsonDocument.Parse(originalJson);
+            using var transDoc = JsonDocument.Parse(translationJson);
+            
+            // 递归提取所有叶子节点的字符串值
+            var origTexts = new Dictionary<string, string>();
+            var transTexts = new Dictionary<string, string>();
+            
+            ExtractLeafStrings(origDoc.RootElement, "", origTexts);
+            ExtractLeafStrings(transDoc.RootElement, "", transTexts);
+            
+            // 按路径匹配原文和译文
+            foreach (var (path, origText) in origTexts)
+            {
+                if (transTexts.TryGetValue(path, out var transText) &&
+                    !string.IsNullOrEmpty(origText) &&
+                    !string.IsNullOrEmpty(transText) &&
+                    origText != transText)
+                {
+                    // 规范化并添加到字典
+                    var normalizedOrig = NormalizeForGameRuntime(origText.Trim());
+                    var normalizedTrans = NormalizeForGameRuntime(transText.Trim());
+                    
+                    if (!string.IsNullOrEmpty(normalizedOrig) && !string.IsNullOrEmpty(normalizedTrans))
+                    {
+                        Map[normalizedOrig] = normalizedTrans;
+                        loaded++;
+                    }
+                }
+            }
+        }
+        catch (JsonException)
+        {
+            // JSON 解析失败，忽略此条目
+        }
+        
+        return loaded;
+    }
+
+    /// <summary>
+    /// 递归提取 JSON 中所有叶子节点的字符串值
+    /// </summary>
+    private static void ExtractLeafStrings(JsonElement element, string path, Dictionary<string, string> result)
+    {
+        switch (element.ValueKind)
+        {
+            case JsonValueKind.String:
+                result[path] = element.GetString() ?? "";
+                break;
+                
+            case JsonValueKind.Object:
+                foreach (var prop in element.EnumerateObject())
+                {
+                    string newPath = string.IsNullOrEmpty(path) ? prop.Name : $"{path}.{prop.Name}";
+                    ExtractLeafStrings(prop.Value, newPath, result);
+                }
+                break;
+                
+            case JsonValueKind.Array:
+                int index = 0;
+                foreach (var item in element.EnumerateArray())
+                {
+                    ExtractLeafStrings(item, $"{path}[{index}]", result);
+                    index++;
+                }
+                break;
+        }
     }
 
     /// <summary>
@@ -170,6 +308,95 @@ internal static class TranslationManager
             // 前缀为空（{0}在句首），存入特殊列表
             TemplatesWithEmptyPrefix.Add(new TemplateEntry(prefix, suffix, translation));
         }
+    }
+
+    /// <summary>
+    /// 将 ParaTranz 格式的文本规范化为游戏运行时格式
+    /// 例如：将 "[Gain 15 Sovereigns]" 转换为 "&lt;style="descriptive"&gt;Gain 15 Sovereigns&lt;/style&gt;"
+    /// </summary>
+    private static string NormalizeForGameRuntime(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return text;
+        
+        // 首先处理字面的 \n 转换为实际换行符（翻译者可能直接输入了 \n 文本）
+        if (text.Contains("\\n"))
+        {
+            text = text.Replace("\\n", "\n");
+        }
+        
+        // 使用 StringBuilder 进行高效的字符串处理
+        var sb = new StringBuilder(text.Length + 64);
+        int i = 0;
+        bool modified = false;
+        
+        while (i < text.Length)
+        {
+            // 检查是否是 [dir:...] 格式（需要移除）
+            if (i < text.Length - 5 && text[i] == '[' && 
+                text.Substring(i, 5).Equals("[dir:", StringComparison.OrdinalIgnoreCase))
+            {
+                // 跳过整个 [dir:...] 标签
+                int endBracket = text.IndexOf(']', i);
+                if (endBracket > i)
+                {
+                    i = endBracket + 1;
+                    modified = true;
+                    // 跳过后面可能的标点和空格
+                    while (i < text.Length && (text[i] == '.' || text[i] == ' ' || text[i] == '\r' || text[i] == '\n'))
+                    {
+                        i++;
+                    }
+                    continue;
+                }
+            }
+            
+            // 检查是否是普通的 [...] 格式（需要转换为 <style="descriptive">...</style>）
+            if (text[i] == '[')
+            {
+                int endBracket = FindMatchingBracket(text, i);
+                if (endBracket > i + 1)
+                {
+                    string content = text.Substring(i + 1, endBracket - i - 1);
+                    // 排除一些不应该转换的特殊格式
+                    if (!content.StartsWith("dir:", StringComparison.OrdinalIgnoreCase) &&
+                        !content.StartsWith("qvd:", StringComparison.OrdinalIgnoreCase) &&
+                        !content.Contains("{") && !content.Contains("}"))
+                    {
+                        sb.Append("<style=\"descriptive\">");
+                        sb.Append(content);
+                        sb.Append("</style>");
+                        i = endBracket + 1;
+                        modified = true;
+                        continue;
+                    }
+                }
+            }
+            
+            sb.Append(text[i]);
+            i++;
+        }
+        
+        if (!modified) return text;
+        
+        return sb.ToString().Trim();
+    }
+
+    /// <summary>
+    /// 查找匹配的右方括号位置
+    /// </summary>
+    private static int FindMatchingBracket(string text, int openPos)
+    {
+        int depth = 1;
+        for (int i = openPos + 1; i < text.Length; i++)
+        {
+            if (text[i] == '[') depth++;
+            else if (text[i] == ']')
+            {
+                depth--;
+                if (depth == 0) return i;
+            }
+        }
+        return -1;
     }
 
     /// <summary>
