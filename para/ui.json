@@ -248,7 +248,7 @@
   {
     "key": "ui42",
     "original": "Horn",
-    "translation": "喇叭",
+    "translation": "鸣笛",
     "stage": 5
   },
   {
@@ -266,19 +266,19 @@
   {
     "key": "ui45",
     "original": "Interact with object",
-    "translation": "与目标互动",
+    "translation": "与物体交互",
     "stage": 5
   },
   {
     "key": "ui46",
     "original": "Engage secondary weapon",
-    "translation": "使用次要武器",
+    "translation": "使用副武器",
     "stage": 5
   },
   {
     "key": "ui47",
     "original": "Engage primary weapon",
-    "translation": "使用主要武器",
+    "translation": "使用主武器",
     "stage": 5
   },
   {
@@ -296,7 +296,7 @@
   {
     "key": "ui50",
     "original": "Open Chart",
-    "translation": "打开地图",
+    "translation": "打开航图",
     "stage": 5
   },
   {
@@ -368,7 +368,7 @@
   {
     "key": "ui62",
     "original": "Actions",
-    "translation": "动作",
+    "translation": "操作",
     "stage": 5
   },
   {
@@ -464,7 +464,7 @@
   {
     "key": "ui78",
     "original": "UI Scroll Down",
-    "translation": "UI向下滚动",
+    "translation": "UI 向下滚动",
     "stage": 5
   },
   {
@@ -578,7 +578,7 @@
   {
     "key": "ui97",
     "original": "Chart [Tab]",
-    "translation": "地图 [Tab]",
+    "translation": "航图 [Tab]",
     "stage": 5
   },
   {
@@ -1970,8 +1970,8 @@
   {
     "key": "ui329",
     "original": "You've gained {{A}} x Hull (new total {{B}}).",
-    "translation": "你获得了 {{A}} x 车体 (现在共有{{B}}).",
-    "stage": 5
+    "translation": "你获得了 {0} x 车体 (现在共有{1}).",
+    "stage": 1
   },
   {
     "key": "ui330",
@@ -2018,14 +2018,14 @@
   {
     "key": "ui337",
     "original": "You've gained {{A}} x Terror (new total {{B}}).",
-    "translation": "你获得了 {{A}} x 恐惧 (现在共有{{B}}).",
-    "stage": 5
+    "translation": "你获得了 {0} x 恐惧 (现在共有{1}).",
+    "stage": 1
   },
   {
     "key": "ui338",
     "original": "You've gained {{A}} x Supplies (new total {{B}}).",
-    "translation": "你获得了 {{A}} x 补给 (现在共有{{B}}).",
-    "stage": 5
+    "translation": "你获得了 {0} x 补给 (现在共有{1}).",
+    "stage": 1
   },
   {
     "key": "ui339",
@@ -2126,8 +2126,8 @@
   {
     "key": "ui355",
     "original": "You've gained {{A}} x Sovereigns (new total {{B}}).",
-    "translation": "你获得了{{A}} x 金镑（现在有{{B}}）。",
-    "stage": 5
+    "translation": "你获得了{0} x 金镑（现在有{1}）。",
+    "stage": 1
   },
   {
     "key": "ui356",
@@ -2168,8 +2168,8 @@
   {
     "key": "ui362",
     "original": "You've gained {{A}} x Fuel (new total {{B}}).",
-    "translation": "你获得了{{A}} x 燃料（现在共有{{B}}）。",
-    "stage": 5
+    "translation": "你获得了{0} x 燃料（现在共有{1}）。",
+    "stage": 1
   },
   {
     "key": "ui363",
@@ -2349,6 +2349,1032 @@
     "key": "ui392",
     "original": "Something Dark",
     "translation": "晦暗",
+    "stage": 5
+  },
+  {
+    "key": "menu_main_1",
+    "original": "Continue",
+    "translation": "继续",
+    "stage": 5
+  },
+  {
+    "key": "menu_main_2",
+    "original": "New Game",
+    "translation": "新游戏",
+    "stage": 5
+  },
+  {
+    "key": "menu_main_3",
+    "original": "Load Game",
+    "translation": "载入游戏",
+    "stage": 5
+  },
+  {
+    "key": "menu_main_4",
+    "original": "Options",
+    "translation": "选项",
+    "stage": 5
+  },
+  {
+    "key": "menu_main_5",
+    "original": "Credits",
+    "translation": "制作人员",
+    "stage": 5
+  },
+  {
+    "key": "menu_main_6",
+    "original": "Exit to Desktop",
+    "translation": "退出到桌面",
+    "stage": 5
+  },
+  {
+    "key": "menu_audio_1",
+    "original": "Audio",
+    "translation": "音频",
+    "stage": 5
+  },
+  {
+    "key": "menu_audio_2",
+    "original": "Music Volume ({0}%):",
+    "translation": "音乐音量 ({0}%):",
+    "stage": 5
+  },
+  {
+    "key": "menu_audio_3",
+    "original": "SFX Volume ({0}%):",
+    "translation": "音效音量 ({0}%):",
+    "stage": 5
+  },
+  {
+    "key": "menu_audio_4",
+    "original": "Ambient SFX Volume ({0}%):",
+    "translation": "环境音效音量 ({0}%):",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_1",
+    "original": "Graphics",
+    "translation": "图像选项",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_2",
+    "original": "Full Screen",
+    "translation": "全屏",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_3",
+    "original": "Resolution",
+    "translation": "分辨率",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_4",
+    "original": "Texture Quality",
+    "translation": "纹理质量",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_5",
+    "original": "Standard",
+    "translation": "标准",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_6",
+    "original": "Font Size",
+    "translation": "字体大小",
+    "stage": 5
+  },
+  {
+    "key": "menu_graphics_7",
+    "original": "Transparent UI",
+    "translation": "透明UI",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_1",
+    "original": "Sunless Skies v{0}",
+    "translation": "无光之空 v{0}",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_2",
+    "original": "Apply",
+    "translation": "应用",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_3",
+    "original": "Back",
+    "translation": "返回",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_4",
+    "original": "Restore Defaults",
+    "translation": "恢复默认",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_5",
+    "original": "Controls",
+    "translation": "控制",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_6",
+    "original": "Off",
+    "translation": "关",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_7",
+    "original": "On",
+    "translation": "开",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_8",
+    "original": "Yes",
+    "translation": "是",
+    "stage": 5
+  },
+  {
+    "key": "menu_general_9",
+    "original": "No",
+    "translation": "否",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_1",
+    "original": "CONTROLS",
+    "translation": "控制",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_2",
+    "original": "Gamepad Options",
+    "translation": "游戏手柄选项",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_3",
+    "original": "Gamepad:",
+    "translation": "游戏手柄：",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_4",
+    "original": "Use Gamepad:",
+    "translation": "使用手柄:",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_5",
+    "original": "Apply Changes",
+    "translation": "应用更改",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_6",
+    "original": "APPLY CHANGES",
+    "translation": "应用更改",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_7",
+    "original": "RESTORE DEFAULTS",
+    "translation": "恢复默认值",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_8",
+    "original": "DONE",
+    "translation": "完成",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_9",
+    "original": "Replace",
+    "translation": "替换",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_10",
+    "original": "This will restore the default input configuration. Are you sure you want to do this?",
+    "translation": "这将恢复默认输入配置。确定要这样做吗？",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_1",
+    "original": "Actions",
+    "translation": "操作",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_2",
+    "original": "Assign Controller",
+    "translation": "分配控制器",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_3",
+    "original": "Assigned Controllers:",
+    "translation": "已分配的控制器:",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_4",
+    "original": "Categories:",
+    "translation": "分类:",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_5",
+    "original": "Keyboard",
+    "translation": "键盘",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_6",
+    "original": "Mouse",
+    "translation": "鼠标",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_7",
+    "original": "No Controllers Detected",
+    "translation": "未检测到手柄",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_8",
+    "original": "None",
+    "translation": "无",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_9",
+    "original": "Players:",
+    "translation": "玩家:",
+    "stage": 5
+  },
+  {
+    "key": "menu_controls_cat_10",
+    "original": "Settings:",
+    "translation": "设置:",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_1",
+    "original": "Backspace",
+    "translation": "退格键",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_2",
+    "original": "Calibrate",
+    "translation": "校准",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_3",
+    "original": "Cancel",
+    "translation": "取消",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_4",
+    "original": "Done",
+    "translation": "完成",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_5",
+    "original": "Remove",
+    "translation": "移除",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_6",
+    "original": "Return",
+    "translation": "回车",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_7",
+    "original": "ESC",
+    "translation": "ESC键",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_8",
+    "original": "Down Arrow",
+    "translation": "下箭头",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_9",
+    "original": "Left Arrow",
+    "translation": "左箭头",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_10",
+    "original": "Right Arrow",
+    "translation": "右箭头",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_11",
+    "original": "Up Arrow",
+    "translation": "上箭头",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_12",
+    "original": "Page Down",
+    "translation": "下翻页",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_13",
+    "original": "Page Up",
+    "translation": "上翻页",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_14",
+    "original": "Tab",
+    "translation": "Tab键",
+    "stage": 5
+  },
+  {
+    "key": "menu_keys_15",
+    "original": "Right Control",
+    "translation": "右Ctrl",
+    "stage": 5
+  },
+  {
+    "key": "menu_mouse_1",
+    "original": "Left Mouse Button",
+    "translation": "鼠标左键",
+    "stage": 5
+  },
+  {
+    "key": "menu_mouse_2",
+    "original": "Right Mouse Button",
+    "translation": "鼠标右键",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_1",
+    "original": "Cruise / Full Steam",
+    "translation": "巡航速度/全速前进",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_2",
+    "original": "Move Forward",
+    "translation": "前进",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_3",
+    "original": "Move Backward",
+    "translation": "后退",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_4",
+    "original": "Move Left",
+    "translation": "左转",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_5",
+    "original": "Move Right",
+    "translation": "右转",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_6",
+    "original": "Move Horizontal",
+    "translation": "水平移动",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_7",
+    "original": "Move Vertical",
+    "translation": "纵向移动",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_8",
+    "original": "Lateral Thrust Left",
+    "translation": "向右冲刺",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_9",
+    "original": "Lateral Thrust Right",
+    "translation": "向左冲刺",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_10",
+    "original": "Steer",
+    "translation": "转向",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_11",
+    "original": "Brake",
+    "translation": "刹车",
+    "stage": 5
+  },
+  {
+    "key": "menu_flight_12",
+    "original": "Thrust",
+    "translation": "前进",
+    "stage": 5
+  },
+  {
+    "key": "menu_dodge_1",
+    "original": "Dodge left:",
+    "translation": "向左躲避：",
+    "stage": 5
+  },
+  {
+    "key": "menu_dodge_2",
+    "original": "Dodge right:",
+    "translation": "向右躲避：",
+    "stage": 5
+  },
+  {
+    "key": "menu_weapon_1",
+    "original": "Engage primary weapon",
+    "translation": "使用主武器",
+    "stage": 5
+  },
+  {
+    "key": "menu_weapon_2",
+    "original": "Engage secondary weapon",
+    "translation": "使用副武器",
+    "stage": 5
+  },
+  {
+    "key": "menu_weapon_3",
+    "original": "Primary fire:",
+    "translation": "主武器：",
+    "stage": 5
+  },
+  {
+    "key": "menu_explore_1",
+    "original": "Engage Scout",
+    "translation": "派出侦察兽",
+    "stage": 5
+  },
+  {
+    "key": "menu_explore_2",
+    "original": "Explore",
+    "translation": "探索",
+    "stage": 5
+  },
+  {
+    "key": "menu_explore_3",
+    "original": "Horn",
+    "translation": "鸣笛",
+    "stage": 5
+  },
+  {
+    "key": "menu_explore_4",
+    "original": "Interact with object",
+    "translation": "与物体交互",
+    "stage": 5
+  },
+  {
+    "key": "menu_explore_5",
+    "original": "Light Toggle",
+    "translation": "开/关大灯",
+    "stage": 5
+  },
+  {
+    "key": "menu_explore_6",
+    "original": "Open Chart",
+    "translation": "打开航图",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_1",
+    "original": "Toggle Hold",
+    "translation": "开/关货舱面板",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_2",
+    "original": "Toggle Journal",
+    "translation": "开/关日志面板",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_3",
+    "original": "Toggle Officers",
+    "translation": "开/关车务官面板",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_4",
+    "original": "Toggle Profile",
+    "translation": "开/关概览面板",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_5",
+    "original": "Facets",
+    "translation": "刻面",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_6",
+    "original": "Inventory",
+    "translation": "库存",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_7",
+    "original": "Journal",
+    "translation": "日志",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_8",
+    "original": "Officers",
+    "translation": "车务官",
+    "stage": 5
+  },
+  {
+    "key": "menu_panel_9",
+    "original": "Status",
+    "translation": "状态",
+    "stage": 5
+  },
+  {
+    "key": "menu_system_1",
+    "original": "Pause or resume",
+    "translation": "暂停或继续",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_1",
+    "original": "UI Cancel",
+    "translation": "UI 取消",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_2",
+    "original": "UI Move Down",
+    "translation": "UI 向下移动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_3",
+    "original": "UI Move Left",
+    "translation": "UI 向左移动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_4",
+    "original": "UI Move Right",
+    "translation": "UI 向右移动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_5",
+    "original": "UI Move Up",
+    "translation": "UI 向上移动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_6",
+    "original": "UI Navigation Horizontal",
+    "translation": "UI 水平导航",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_7",
+    "original": "UI Navigation Vertical",
+    "translation": "UI 垂直导航",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_8",
+    "original": "UI Scroll",
+    "translation": "UI 滚动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_9",
+    "original": "UI Scroll Down",
+    "translation": "UI 向下滚动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_10",
+    "original": "UI Scroll Up",
+    "translation": "UI 向上滚动",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_11",
+    "original": "UI Select",
+    "translation": "UI 选择",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_12",
+    "original": "UI Submit",
+    "translation": "UI 提交",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_13",
+    "original": "UI Tab Left",
+    "translation": "UI 向左切换",
+    "stage": 5
+  },
+  {
+    "key": "menu_uinav_14",
+    "original": "UI Tab Right",
+    "translation": "UI 向右切换",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_1",
+    "original": "Chart",
+    "translation": "航图",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_2",
+    "original": "Pause",
+    "translation": "暂停",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_3",
+    "original": "Primary fire",
+    "translation": "主武器",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_4",
+    "original": "Secondary fire",
+    "translation": "副武器",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_5",
+    "original": "Cruise control",
+    "translation": "巡航控制",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_6",
+    "original": "Interact",
+    "translation": "交互",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_7",
+    "original": "Toggle lights",
+    "translation": "开/关灯光",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_8",
+    "original": "Send Scout",
+    "translation": "派出侦察兽",
+    "stage": 5
+  },
+  {
+    "key": "menu_gamepad_9",
+    "original": "Radial menu",
+    "translation": "圆环菜单",
+    "stage": 5
+  },
+  {
+    "key": "menu_hint_1",
+    "original": "Press a key to assign it to {0}. Modifier keys may also be used. To assign a modifier key alone, hold it down for 1 second.",
+    "translation": "按下一个键来分配给 {0}。也可以使用修饰键。要单独分配修饰键，请按住1秒钟。",
+    "stage": 5
+  },
+  {
+    "key": "menu_hint_2",
+    "original": "{0} is already in use. Do you want to replace it? You may also choose to add the assignment anyway.",
+    "translation": "{0} 已被使用。是否要选择其他按键？你也可以选择强行添加这一按键。",
+    "stage": 5
+  },
+  {
+    "key": "menu_hint_3",
+    "original": "Add",
+    "translation": "添加",
+    "stage": 5
+  },
+  {
+    "key": "menu_hint_4",
+    "original": "Assignment Conflict",
+    "translation": "键位冲突",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_1",
+    "original": "Pause Menu",
+    "translation": "暂停菜单",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_2",
+    "original": "Paused",
+    "translation": "暂停",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_3",
+    "original": "Open Radial Menu",
+    "translation": "打开圆环菜单",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_4",
+    "original": "Close",
+    "translation": "关闭",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_5",
+    "original": "Navigate",
+    "translation": "导航",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_6",
+    "original": "Select",
+    "translation": "选择",
+    "stage": 5
+  },
+  {
+    "key": "menu_pause_7",
+    "original": "Saving",
+    "translation": "正在保存",
+    "stage": 5
+  },
+  {
+    "key": "menu_tip_1",
+    "original": "Hide Tips",
+    "translation": "隐藏提示",
+    "stage": 5
+  },
+  {
+    "key": "menu_tip_2",
+    "original": "Tip title",
+    "translation": "提示标题",
+    "stage": 5
+  },
+  {
+    "key": "menu_tip_3",
+    "original": "Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description. Tip description.",
+    "translation": "提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。提示描述。",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_1",
+    "original": "Current Location",
+    "translation": "当前位置",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_2",
+    "original": "Region name",
+    "translation": "区域名称",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_3",
+    "original": "Region Description",
+    "translation": "区域描述",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_4",
+    "original": "Region",
+    "translation": "区域",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_5",
+    "original": "Category:",
+    "translation": "类别：",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_6",
+    "original": "Description (optional)",
+    "translation": "描述（可选）",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_7",
+    "original": "Content",
+    "translation": "内容",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_8",
+    "original": "Platform",
+    "translation": "站台",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_9",
+    "original": "New Facet Available",
+    "translation": "新刻面可用",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_10",
+    "original": "Legend",
+    "translation": "图例",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_11",
+    "original": "Toggle",
+    "translation": "开/关",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_12",
+    "original": "Slot:",
+    "translation": "槽位：",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_13",
+    "original": "Example",
+    "translation": "示例",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_14",
+    "original": "Exp Test Label",
+    "translation": "经验测试标签",
+    "stage": 5
+  },
+  {
+    "key": "menu_ui_15",
+    "original": "Change",
+    "translation": "修改",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_1",
+    "original": "Press        to send out your scout(costs Supplies)",
+    "translation": "按下        派出你的侦察兽（花费补给）",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_2",
+    "original": "Report a Bug",
+    "translation": "报告错误",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_3",
+    "original": "Bug report submitted!",
+    "translation": "错误报告已提交！",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_4",
+    "original": "Submit or cancel bug report to unpause",
+    "translation": "提交或取消错误报告以取消暂停",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_5",
+    "original": "Submit",
+    "translation": "提交",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_6",
+    "original": "Submitting Bug Report",
+    "translation": "提交错误报告中",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_7",
+    "original": "Submission Failed",
+    "translation": "提交失败",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_8",
+    "original": "Submission Successful",
+    "translation": "提交成功",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_9",
+    "original": "Unfortunately, we couldn't submit your report. It may be that there's a problem with your internet connection.",
+    "translation": "不幸的是，我们无法提交您的报告。可能是您的互联网连接有问题。",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_10",
+    "original": "If you're definitely online, please try again later – thanks for taking the time to make a report, and sorry for the trouble.",
+    "translation": "如果您确实在线，请稍后重试 – 感谢您抽出时间报告，对于麻烦表示歉意。",
+    "stage": 5
+  },
+  {
+    "key": "menu_report_11",
+    "original": "Uploading... 0%",
+    "translation": "上传中... 0%",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_1",
+    "original": "BUGS & TECHNICAL HELP",
+    "translation": "Bug与技术支持",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_2",
+    "original": "If you find a bug please let us know via the bug reporter found through the pause menu or by pressing F8.",
+    "translation": "如果您发现错误，请通过暂停菜单中找到的错误报告工具或按F8告诉我们。",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_3",
+    "original": "For technical help, please see our <u><link=https://www.failbettergames.com/sunless-skies-troubleshooting-guide/>Troubleshooting Guide</link></u>.",
+    "translation": "如需技术支持，请参考我们的<u><link=https://www.failbettergames.com/sunless-skies-troubleshooting-guide/>故障排除指南</link></u>。",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_4",
+    "original": "For technical support please see our <u><link=https://steamcommunity.com/sharedfiles/filedetails/?id=1860884266>Troubleshooting Guide</link></u>.",
+    "translation": "如需技术支持，请查看我们的<u><link=https://steamcommunity.com/sharedfiles/filedetails/?id=1860884266>故障排除指南</link></u>。",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_5",
+    "original": "When you submit a report we also collect a copy of your save file, an output log with details about any errors or exceptions, and some system information, such as your operating system and screen resolution.",
+    "translation": "当你提交报告时，我们也会收集你的保存文件副本、包含错误或异常详情的输出日志，以及一些系统信息，如你的操作系统和屏幕分辨率。",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_6",
+    "original": "All data collected this way is anonymous and is only stored for 90 days (which gives us plenty of time to read and process it). Thank you – your reports and feedback help us to make Sunless Skies better.",
+    "translation": "以这种方式收集的所有数据都是匿名的，仅存储90天（这给我们充足的时间来阅读和处理）。谢谢–您的报告和反馈帮助我们改进Sunless Skies。",
+    "stage": 5
+  },
+  {
+    "key": "menu_help_7",
+    "original": "Thank you.",
+    "translation": "谢谢。",
+    "stage": 5
+  },
+  {
+    "key": "menu_misc_1",
+    "original": "Narrative Issue",
+    "translation": "叙事问题",
+    "stage": 5
+  },
+  {
+    "key": "menu_misc_2",
+    "original": "Narrative Issue – Includes typos, story progression, journal inconsistencies.",
+    "translation": "叙事问题 – 包括拼写错误、故事进展、日志不一致。",
+    "stage": 5
+  },
+  {
+    "key": "menu_misc_3",
+    "original": "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+    "translation": "测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试",
+    "stage": 5
+  },
+  {
+    "key": "menu_misc_4",
+    "original": "TestTestTestTest",
+    "translation": "测试测试测试测试",
+    "stage": 5
+  },
+  {
+    "key": "menu_misc_5",
+    "original": "VERSION VERSION",
+    "translation": "VERSION VERSION",
     "stage": 5
   }
 ]

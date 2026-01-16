@@ -129,12 +129,20 @@ internal static class TranslationManager
                 continue;
             }
 
-            // 检查是否为嵌套 JSON 格式（VariableDescriptionText 类型）
+            // 检查是否为嵌套 JSON 格式（VariableDescriptionText / ChangeDescriptionText 类型）
             if (original.StartsWith("{") && original.EndsWith("}") &&
                 translation.StartsWith("{") && translation.EndsWith("}"))
             {
+                // 首先加载拆分后的单个值（用于游戏显示单个值的情况）
                 int nestedLoaded = LoadNestedJsonTranslations(original, translation);
                 loaded += nestedLoaded;
+                
+                // 同时也将整个 JSON 字符串本身加入字典（用于游戏直接显示整个 JSON 的情况）
+                if (original != translation)
+                {
+                    Map[original] = translation;
+                    loaded++;
+                }
                 continue;
             }
 
@@ -360,6 +368,8 @@ internal static class TranslationManager
                     // 排除一些不应该转换的特殊格式
                     if (!content.StartsWith("dir:", StringComparison.OrdinalIgnoreCase) &&
                         !content.StartsWith("qvd:", StringComparison.OrdinalIgnoreCase) &&
+                        !content.StartsWith("<#", StringComparison.Ordinal) &&  // 排除按键绑定格式 [<#FFD27C>R</color>]
+                        !IsKeyBindingFormat(content) &&  // 排除按键绑定格式 [H], [Tab], [F8] 等
                         !content.Contains("{") && !content.Contains("}"))
                     {
                         sb.Append("<style=\"descriptive\">");
@@ -397,6 +407,38 @@ internal static class TranslationManager
             }
         }
         return -1;
+    }
+
+    /// <summary>
+    /// 判断内容是否是按键绑定格式，如 H, J, Tab, ESC, F8, Arrow Up 等
+    /// </summary>
+    private static bool IsKeyBindingFormat(string content)
+    {
+        if (string.IsNullOrEmpty(content))
+            return false;
+
+        // 单个字母或数字
+        if (content.Length == 1 && char.IsLetterOrDigit(content[0]))
+            return true;
+
+        // 常见按键名称（不区分大小写）
+        string[] knownKeys = {
+            "Tab", "ESC", "Escape", "Space", "Enter", "Return",
+            "Shift", "Ctrl", "Alt", "Backspace", "Delete", "Insert",
+            "Home", "End", "PageUp", "PageDown", "PgUp", "PgDn",
+            "Up", "Down", "Left", "Right",
+            "Arrow Up", "Arrow Down", "Arrow Left", "Arrow Right",
+            "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12",
+            "LMB", "RMB", "MMB", "Mouse1", "Mouse2", "Mouse3"
+        };
+
+        foreach (var key in knownKeys)
+        {
+            if (content.Equals(key, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -460,6 +502,13 @@ internal static class TranslationManager
         
         // 1. 优先精确匹配（O(1) 哈希查找）
         if (Map.TryGetValue(text, out var zh))
+        {
+            return zh;
+        }
+        
+        // 1.5 尝试去除首尾空白后匹配
+        string trimmed = text.Trim();
+        if (trimmed != text && Map.TryGetValue(trimmed, out zh))
         {
             return zh;
         }
