@@ -23,6 +23,12 @@ internal static class TranslationManager
     // 前缀为空的模板（{0} 在句首），按后缀匹配
     public static List<TemplateEntry> TemplatesWithEmptyPrefix { get; } = new();
     
+    // 多占位符模板：按前缀首字母分组
+    public static Dictionary<char, List<MultiTemplateEntry>> MultiTemplatesByFirstChar { get; } = new();
+    
+    // 前缀为空的多占位符模板
+    public static List<MultiTemplateEntry> MultiTemplatesWithEmptyPrefix { get; } = new();
+    
     // 已匹配的模板缓存：避免重复匹配相同的动态文本
     private static readonly Dictionary<string, string> _templateMatchCache = new(StringComparer.Ordinal);
     
@@ -150,6 +156,10 @@ internal static class TranslationManager
             original = NormalizeForGameRuntime(original);
             translation = NormalizeForGameRuntime(translation);
 
+            // 将游戏模板占位符 {{A}}/{{B}}/{{C}} 转换为 {0}/{1}/{2}
+            original = ConvertGamePlaceholders(original);
+            translation = ConvertGamePlaceholders(translation);
+
             // 检查并处理按键绑定格式（如 [<#FFD27C>R</color>] Dock）
             var (templateOrig, templateTrans) = TryConvertKeyBindingToTemplate(original, translation);
             if (templateOrig != null && templateTrans != null)
@@ -162,7 +172,15 @@ internal static class TranslationManager
             // 处理模板翻译（包含 {0} 占位符）
             if (original.Contains("{0}") && translation.Contains("{0}"))
             {
-                AddTemplateEntry(original, translation);
+                // 检查是否有多个占位符
+                if (original.Contains("{1}") && translation.Contains("{1}"))
+                {
+                    AddMultiTemplateEntry(original, translation);
+                }
+                else
+                {
+                    AddTemplateEntry(original, translation);
+                }
             }
             else
             {
@@ -316,6 +334,65 @@ internal static class TranslationManager
             // 前缀为空（{0}在句首），存入特殊列表
             TemplatesWithEmptyPrefix.Add(new TemplateEntry(prefix, suffix, translation));
         }
+    }
+
+    /// <summary>
+    /// 添加多占位符模板翻译条目（{0}, {1}, ...）
+    /// </summary>
+    private static void AddMultiTemplateEntry(string original, string translation)
+    {
+        // 按 {0}, {1}, {2}, ... 分割原文，提取固定文本段
+        var parts = new List<string>();
+        int placeholderCount = 0;
+        int pos = 0;
+        
+        while (true)
+        {
+            string placeholder = $"{{{placeholderCount}}}";
+            int idx = original.IndexOf(placeholder, pos, StringComparison.Ordinal);
+            if (idx < 0)
+            {
+                // 没有更多占位符，添加剩余部分作为最后一个 part
+                parts.Add(original.Substring(pos));
+                break;
+            }
+            parts.Add(original.Substring(pos, idx - pos));
+            pos = idx + placeholder.Length;
+            placeholderCount++;
+        }
+
+        if (placeholderCount < 2) return; // 不应该发生，保护性检查
+
+        var entry = new MultiTemplateEntry(parts.ToArray(), translation, placeholderCount);
+        
+        if (parts[0].Length > 0)
+        {
+            char firstChar = parts[0][0];
+            if (!MultiTemplatesByFirstChar.TryGetValue(firstChar, out var list))
+            {
+                list = new List<MultiTemplateEntry>();
+                MultiTemplatesByFirstChar[firstChar] = list;
+            }
+            list.Add(entry);
+        }
+        else
+        {
+            MultiTemplatesWithEmptyPrefix.Add(entry);
+        }
+    }
+
+    /// <summary>
+    /// 将游戏模板占位符 {{A}}/{{B}}/{{C}} 转换为标准占位符 {0}/{1}/{2}
+    /// </summary>
+    private static string ConvertGamePlaceholders(string text)
+    {
+        if (!text.Contains("{{")) return text;
+        
+        return text
+            .Replace("{{A}}", "{0}")
+            .Replace("{{B}}", "{1}")
+            .Replace("{{C}}", "{2}")
+            .Replace("{{D}}", "{3}");
     }
 
     /// <summary>
@@ -536,7 +613,7 @@ internal static class TranslationManager
             return TryTranslateBodyAfterDate(dateResult);
         }
         
-        // 5. 尝试模板匹配
+        // 5. 尝试模板匹配（单占位符 + 多占位符）
         return TryMatchTemplate(text);
     }
 
@@ -584,7 +661,7 @@ internal static class TranslationManager
     /// </summary>
     private static string? TryMatchTemplate(string text)
     {
-        // 1. 先尝试按首字符索引的模板
+        // 1. 先尝试按首字符索引的单占位符模板
         if (TemplatesByFirstChar.Count > 0)
         {
             char firstChar = text[0];
@@ -605,8 +682,42 @@ internal static class TranslationManager
             }
         }
         
-        // 2. 再尝试空前缀模板（{0}在句首，用后缀匹配）
+        // 2. 再尝试空前缀单占位符模板（{0}在句首，用后缀匹配）
         foreach (var template in TemplatesWithEmptyPrefix)
+        {
+            if (template.TryTranslate(text, out var translated))
+            {
+                lock (_cacheLock)
+                {
+                    _templateMatchCache[text] = translated;
+                }
+                return translated;
+            }
+        }
+
+        // 3. 尝试按首字符索引的多占位符模板
+        if (MultiTemplatesByFirstChar.Count > 0)
+        {
+            char firstChar = text[0];
+            
+            if (MultiTemplatesByFirstChar.TryGetValue(firstChar, out var multiTemplates))
+            {
+                foreach (var template in multiTemplates)
+                {
+                    if (template.TryTranslate(text, out var translated))
+                    {
+                        lock (_cacheLock)
+                        {
+                            _templateMatchCache[text] = translated;
+                        }
+                        return translated;
+                    }
+                }
+            }
+        }
+
+        // 4. 尝试空前缀多占位符模板
+        foreach (var template in MultiTemplatesWithEmptyPrefix)
         {
             if (template.TryTranslate(text, out var translated))
             {
