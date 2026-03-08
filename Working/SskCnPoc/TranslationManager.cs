@@ -590,6 +590,27 @@ internal static class TranslationManager
             return zh;
         }
         
+        // 1.6 尝试补充冠词 "The " 后匹配（游戏地名有时省略 The）
+        if (trimmed.Length > 0 && char.IsUpper(trimmed[0]))
+        {
+            if (Map.TryGetValue("The " + trimmed, out zh))
+            {
+                return zh;
+            }
+        }
+        
+        // 1.7 尝试剥离 TMP 富文本标签后匹配
+        // 处理如 <b><color=#FDBD58FF><smallcaps>New Winchester</smallcaps></color></b> 的情况
+        if (text.IndexOf('<') >= 0)
+        {
+            var tagResult = TryTranslateWithTagStripping(text);
+            if (tagResult != null)
+            {
+                lock (_cacheLock) { _templateMatchCache[text] = tagResult; }
+                return tagResult;
+            }
+        }
+        
         // 2. 检查模板匹配缓存
         lock (_cacheLock)
         {
@@ -615,6 +636,55 @@ internal static class TranslationManager
         
         // 5. 尝试模板匹配（单占位符 + 多占位符）
         return TryMatchTemplate(text);
+    }
+
+    // === 富文本标签匹配 ===
+    // 匹配外层包裹标签: <tag>...<tag>CONTENT</tag>...</tag>
+    private static readonly Regex _outerTagsRegex = new(
+        @"^((?:<[^/>]+>)+)(.+?)((?:</[^>]+>)+)$",
+        RegexOptions.Singleline | RegexOptions.Compiled);
+    // 匹配所有 TMP 富文本标签
+    private static readonly Regex _richTagRegex = new(
+        @"<[^>]+>", RegexOptions.Compiled);
+
+    /// <summary>
+    /// 尝试剥离 TMP 富文本标签后翻译文本。
+    /// Phase 1: 提取外层包裹标签（如 &lt;b&gt;&lt;color&gt;...&lt;/color&gt;&lt;/b&gt;），翻译内部纯文本，保留格式。
+    /// Phase 2: 完全剥离所有标签，尝试翻译纯文本内容（丢失格式）。
+    /// </summary>
+    private static string TryTranslateWithTagStripping(string text)
+    {
+        // Phase 1: 提取外层包裹标签，翻译内部内容（保留格式）
+        var match = _outerTagsRegex.Match(text);
+        if (match.Success)
+        {
+            string prefix = match.Groups[1].Value;
+            string inner = match.Groups[2].Value;
+            string suffix = match.Groups[3].Value;
+            
+            // 内部不含标签时，递归调用 TryTranslate 翻译（不会无限递归，因为 inner 无 '<'）
+            if (inner.IndexOf('<') < 0)
+            {
+                string translated = TryTranslate(inner);
+                if (translated != null)
+                {
+                    // 中文无大小写之分，移除 smallcaps 标签避免 TMP 异常缩放
+                    prefix = prefix.Replace("<smallcaps>", "");
+                    suffix = suffix.Replace("</smallcaps>", "");
+                    return prefix + translated + suffix;
+                }
+            }
+        }
+        
+        // Phase 2: 完全剥离所有标签，尝试翻译纯文本（丢失原始格式）
+        string stripped = _richTagRegex.Replace(text, "").Trim();
+        if (stripped.Length > 0 && stripped != text.Trim())
+        {
+            // stripped 不含 '<'，调用 TryTranslate 不会再进入标签剥离逻辑
+            return TryTranslate(stripped);
+        }
+        
+        return null;
     }
 
     /// <summary>

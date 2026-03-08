@@ -17,7 +17,7 @@ namespace SskCnPoc;
 public class TextScanner : MonoBehaviour
 {
     private float _fastInterval = 0.05f;  // 快速扫描间隔（50ms，几乎即时）
-    private float _slowInterval = 30.0f;  // 慢速扫描间隔（30秒，几乎不扫描，避免卡顿）
+    private float _slowInterval = 2.0f;   // 慢速扫描间隔（2秒，捕获动态UI如tooltip）
     private int _fastScanCount = 30;      // 快速扫描次数（增加到30次，覆盖1.5秒）
     private float _lastScanTime = 0f;
     private bool _isScanning = false;
@@ -112,19 +112,26 @@ public class TextScanner : MonoBehaviour
     {
         if (!_isScanning) return;
         
-        // 只在快速模式下扫描，之后完全依靠 Harmony patch
-        if (_scanCount >= _fastScanCount)
+        float currentInterval;
+        
+        if (_scanCount < _fastScanCount)
         {
-            // 快速扫描结束，停止扫描并清理缓存
+            // 快速模式
+            currentInterval = _fastInterval;
+        }
+        else
+        {
+            // 快速扫描结束后切换到慢速模式，释放缓存
             if (_useCachedComponents)
             {
                 ClearCache();
-                Plugin.LogSrc.LogInfo("TextScanner: Fast scan complete, switching to Harmony-only mode");
+                ComponentScanner.ClearCache(); // 清除已处理缓存，允许重新扫描
+                Plugin.LogSrc.LogInfo("TextScanner: Fast scan complete, switching to slow mode");
             }
-            return;
+            currentInterval = _slowInterval;
         }
         
-        if (Time.time - _lastScanTime >= _fastInterval)
+        if (Time.time - _lastScanTime >= currentInterval)
         {
             _lastScanTime = Time.time;
             _scanCount++;
@@ -134,6 +141,12 @@ public class TextScanner : MonoBehaviour
                 if (_useCachedComponents && _cachedTmpTexts != null && _cachedUguiTexts != null)
                 {
                     Plugin.ScanCached(_cachedTmpTexts, _cachedUguiTexts);
+                }
+                else
+                {
+                    // 慢速模式：直接扫描所有组件（不使用缓存）
+                    ComponentScanner.ClearCache(); // 每次慢速扫描前清除缓存，确保能重新检查动态文本
+                    Plugin.ScanAll();
                 }
             }
             catch (Exception ex)

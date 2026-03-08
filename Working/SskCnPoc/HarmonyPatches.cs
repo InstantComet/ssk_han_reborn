@@ -1,6 +1,7 @@
 using HarmonyLib;
 using System;
 using System.Linq;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 
@@ -27,8 +28,9 @@ internal static class HarmonyPatches
         if (!_uguiPatched)
             _uguiPatched = PatchUgui(harmony);
         bool canvasPatched = PatchCanvas(harmony);
+        bool gameObjectPatched = PatchGameObjectSetActive(harmony);
         
-        Plugin.LogSrc.LogInfo($"Patched: TMP={_tmpPatched}, UGUI={_uguiPatched}, Canvas={canvasPatched}");
+        Plugin.LogSrc.LogInfo($"Patched: TMP={_tmpPatched}, UGUI={_uguiPatched}, Canvas={canvasPatched}, GameObject={gameObjectPatched}");
         
         // TMP 是主要的文本组件，必须成功 patch
         return _tmpPatched;
@@ -278,6 +280,51 @@ internal static class HarmonyPatches
             
             var go = type.GetProperty("gameObject")?.GetValue(__instance) as GameObject;
             if (go != null) ComponentScanner.ScanChildren(go);
+        }
+        catch { /* ignore */ }
+    }
+
+    #endregion
+
+    #region GameObject.SetActive Patch
+
+    /// <summary>
+    /// Patch GameObject.SetActive 以捕获 tooltip 等动态 UI 的显示
+    /// 当任何 GameObject 被激活时，检查其子组件是否有未翻译的文本
+    /// </summary>
+    private static bool PatchGameObjectSetActive(Harmony harmony)
+    {
+        try
+        {
+            var setActiveMethod = typeof(GameObject).GetMethod("SetActive", new[] { typeof(bool) });
+            if (setActiveMethod == null)
+            {
+                Plugin.LogSrc.LogWarning("GameObject.SetActive method not found");
+                return false;
+            }
+
+            harmony.Patch(setActiveMethod, 
+                postfix: new HarmonyMethod(AccessTools.Method(typeof(HarmonyPatches), nameof(GameObjectSetActivePostfix))));
+            Plugin.LogSrc.LogInfo("✓ Patched GameObject.SetActive");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Plugin.LogSrc.LogWarning($"PatchGameObjectSetActive error: {ex.Message}");
+            return false;
+        }
+    }
+
+    private static void GameObjectSetActivePostfix(GameObject __instance, bool __0)
+    {
+        try
+        {
+            // 只在激活时处理
+            if (!__0 || __instance == null) return;
+            
+            // 强制重新扫描被激活的 GameObject 及其子组件
+            // 使用 ForceRescan 因为 tooltip 等 UI 可能复用同一组件但显示不同文本
+            ComponentScanner.ScanChildrenForce(__instance);
         }
         catch { /* ignore */ }
     }

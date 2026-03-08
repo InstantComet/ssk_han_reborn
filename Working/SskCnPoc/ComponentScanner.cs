@@ -51,15 +51,40 @@ internal static class ComponentScanner
     /// </summary>
     public static void ScanChildren(GameObject root)
     {
+        ScanChildrenInternal(root, forceRescan: false);
+    }
+
+    /// <summary>
+    /// 扫描指定 GameObject 下的子组件（强制重新扫描，忽略缓存）
+    /// 用于 tooltip 等动态 UI，同一组件可能显示不同文本
+    /// </summary>
+    public static void ScanChildrenForce(GameObject root)
+    {
+        ScanChildrenInternal(root, forceRescan: true);
+    }
+
+    private static void ScanChildrenInternal(GameObject root, bool forceRescan)
+    {
         int translated = 0;
 
         foreach (var tmp in root.GetComponentsInChildren<TMP_Text>(true))
         {
+            if (forceRescan)
+            {
+                // 从缓存中移除，允许重新处理
+                int id = tmp.GetInstanceID();
+                lock (_lock) { _processedIds.Remove(id); }
+            }
             if (TryScanTmp(tmp)) translated++;
         }
 
         foreach (var text in root.GetComponentsInChildren<UnityEngine.UI.Text>(true))
         {
+            if (forceRescan)
+            {
+                int id = text.GetInstanceID();
+                lock (_lock) { _processedIds.Remove(id); }
+            }
             if (TryScanUgui(text)) translated++;
         }
 
