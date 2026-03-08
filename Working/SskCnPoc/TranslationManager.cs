@@ -588,7 +588,9 @@ internal static class TranslationManager
             "...or you could sell it, and be done.",
             "You have been bequeathed a large black box which once belonged to Captain Whitlock.",
             "New Winchester",
-            "The Blue Kingdom Transit Relay"
+            "The Blue Kingdom Transit Relay",
+            "\"Excuse me!\"",
+            "\"I specialise in test-driving, but I'm looking for something quieter.\""
         };
         foreach (var key in testKeys)
         {
@@ -666,6 +668,16 @@ internal static class TranslationManager
                 return prefixResult;
             }
         }
+        else if (trimmed.Length >= 8)
+        {
+            // 短文本：无法使用前缀索引，改用暴力扫描 Map 查找以此文本开头的长条目
+            var shortResult = TryShortPrefixScan(trimmed);
+            if (shortResult != null)
+            {
+                lock (_cacheLock) { _templateMatchCache[text] = shortResult; }
+                return shortResult;
+            }
+        }
         
         // 4. 尝试日期翻译（动态处理各种日期格式）
         var dateResult = DateTranslator.TryTranslateWithTags(text);
@@ -699,6 +711,38 @@ internal static class TranslationManager
         
         // 提取首句加入精确匹配字典（处理游戏只显示第一句话的情况）
         AddFirstSentenceToMap(original, translation);
+    }
+    
+    /// <summary>
+    /// 短文本暴力前缀扫描：遍历 Map 查找以输入文本开头的长条目。
+    /// 仅用于 8-18 字符的短截断文本（长文本通过前缀索引走快速路径）。
+    /// 结果会缓存，不会反复扫描。
+    /// 也处理游戏重新添加闭合引号的情况（如 "Excuse me!" → "Excuse me! Captain!" ...）
+    /// </summary>
+    private static string TryShortPrefixScan(string text)
+    {
+        // 收集要尝试的前缀变体
+        var prefixes = new List<string> { text };
+        
+        // 如果以引号结尾，也尝试去掉尾部引号（游戏可能重新闭合了截断的引号）
+        char last = text[text.Length - 1];
+        if (last == '"' || last == '\u201d' || last == '\u300d') // " " 」
+        {
+            string stripped = text.Substring(0, text.Length - 1);
+            if (stripped.Length >= 6) prefixes.Add(stripped);
+        }
+        
+        foreach (var (key, value) in Map)
+        {
+            foreach (var pfx in prefixes)
+            {
+                if (key.Length > pfx.Length + 10 && key.StartsWith(pfx, StringComparison.Ordinal))
+                {
+                    return ExtractTranslationForPrefix(text, key, value);
+                }
+            }
+        }
+        return null;
     }
     
     /// <summary>
@@ -810,21 +854,33 @@ internal static class TranslationManager
     
     /// <summary>
     /// 前缀匹配：当游戏只显示长描述的第一句/段时，通过前缀索引查找完整翻译并截取对应部分
+    /// 也处理游戏重新添加闭合引号的情况
     /// </summary>
     private static string TryPrefixMatch(string text)
     {
         if (text.Length < PrefixLen + 3) return null;
         
-        string prefix = text.Substring(0, PrefixLen);
-        if (!_prefixIndex.TryGetValue(prefix, out var candidates)) return null;
-        
-        foreach (var (fullOrig, fullTrans) in candidates)
+        // 收集要尝试的前缀变体
+        var textVariants = new List<string> { text };
+        char last = text[text.Length - 1];
+        if (last == '"' || last == '\u201d' || last == '\u300d')
         {
-            // 确认输入文本确实是完整key的前缀，且key明显更长
-            if (fullOrig.Length > text.Length + 10 &&
-                fullOrig.StartsWith(text, StringComparison.Ordinal))
+            string stripped = text.Substring(0, text.Length - 1);
+            if (stripped.Length >= PrefixLen + 3) textVariants.Add(stripped);
+        }
+        
+        foreach (var variant in textVariants)
+        {
+            string prefix = variant.Substring(0, PrefixLen);
+            if (!_prefixIndex.TryGetValue(prefix, out var candidates)) continue;
+            
+            foreach (var (fullOrig, fullTrans) in candidates)
             {
-                return ExtractTranslationForPrefix(text, fullOrig, fullTrans);
+                if (fullOrig.Length > variant.Length + 10 &&
+                    fullOrig.StartsWith(variant, StringComparison.Ordinal))
+                {
+                    return ExtractTranslationForPrefix(text, fullOrig, fullTrans);
+                }
             }
         }
         return null;
@@ -882,12 +938,46 @@ internal static class TranslationManager
         
         if (bestPos > 0 && bestPos <= fullTranslation.Length)
         {
-            return fullTranslation.Substring(0, bestPos).TrimEnd();
+            return BalanceQuotes(fullTranslation.Substring(0, bestPos).TrimEnd());
         }
         
         // 回退：按比例截断
         int safeEnd = Math.Min(Math.Max(approxEnd, 1), fullTranslation.Length);
-        return fullTranslation.Substring(0, safeEnd).TrimEnd();
+        return BalanceQuotes(fullTranslation.Substring(0, safeEnd).TrimEnd());
+    }
+    
+    /// <summary>
+    /// 平衡引号：如果截取的文本有未闭合的左引号，补上对应的右引号
+    /// </summary>
+    private static string BalanceQuotes(string text)
+    {
+        // 中文双引号 "" 
+        int openDouble = 0;
+        // 中文单引号 ''
+        int openSingle = 0;
+        // 直角引号 「」
+        int openCorner = 0;
+        
+        foreach (char c in text)
+        {
+            switch (c)
+            {
+                case '\u201c': openDouble++; break;  // "
+                case '\u201d': openDouble--; break;  // "
+                case '\u2018': openSingle++; break;  // '
+                case '\u2019': openSingle--; break;  // '
+                case '\u300c': openCorner++; break;  // 「
+                case '\u300d': openCorner--; break;  // 」
+            }
+        }
+        
+        var sb = new System.Text.StringBuilder(text);
+        // 补右引号（从内到外：先补最内层）
+        for (int i = 0; i < openCorner; i++) sb.Append('\u300d');  // 」
+        for (int i = 0; i < openSingle; i++) sb.Append('\u2019');  // '
+        for (int i = 0; i < openDouble; i++) sb.Append('\u201d');  // "
+        
+        return sb.ToString();
     }
     
     // === 富文本标签匹配 ===
