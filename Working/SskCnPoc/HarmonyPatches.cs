@@ -155,7 +155,7 @@ internal static class HarmonyPatches
         // 检查混合文本中的英文日期
         if (Utils.HasEnglishMonth(text))
         {
-            var result = DateTranslator.TryTranslateWithTags(text);
+            var result = TranslationManager.TryTranslate(text);
             if (result != null && result != text)
             {
                 SetTmpText(__instance, result);

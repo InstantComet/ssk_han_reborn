@@ -532,11 +532,51 @@ internal static class TranslationManager
         var dateResult = DateTranslator.TryTranslateWithTags(text);
         if (dateResult != null)
         {
-            return dateResult;
+            // 日期已翻译，进一步尝试翻译日期后的正文（如航海日志条目）
+            return TryTranslateBodyAfterDate(dateResult);
         }
         
         // 5. 尝试模板匹配
         return TryMatchTemplate(text);
+    }
+
+    /// <summary>
+    /// 在日期翻译后，尝试翻译换行符之后的正文部分。
+    /// 处理航海日志格式："{translated_date}\n{english_body}"
+    /// </summary>
+    private static string TryTranslateBodyAfterDate(string dateTranslatedText)
+    {
+        // 查找换行符分隔的正文部分
+        int newlineIdx = dateTranslatedText.IndexOf('\n');
+        if (newlineIdx < 0)
+        {
+            return dateTranslatedText; // 纯日期，无正文
+        }
+
+        string datePart = dateTranslatedText.Substring(0, newlineIdx);
+        string bodyPart = dateTranslatedText.Substring(newlineIdx + 1);
+
+        if (string.IsNullOrWhiteSpace(bodyPart))
+        {
+            return dateTranslatedText;
+        }
+
+        string bodyTrimmed = bodyPart.Trim();
+
+        // 尝试精确匹配正文部分
+        if (Map.TryGetValue(bodyTrimmed, out var zhBody))
+        {
+            return datePart + "\n" + zhBody;
+        }
+
+        // 尝试模板匹配正文部分
+        var templateResult = TryMatchTemplate(bodyTrimmed);
+        if (templateResult != null)
+        {
+            return datePart + "\n" + templateResult;
+        }
+
+        return dateTranslatedText;
     }
 
     /// <summary>
