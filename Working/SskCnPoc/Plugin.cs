@@ -23,6 +23,7 @@ public class Plugin : BasePlugin
         LogSrc.LogInfo("SSK CN PoC loading...");
 
         TranslationManager.LoadTranslations();
+        TranslationManager.VerifyKeyEntries();
         FontManager.Initialize();
 
         _harmony = new Harmony("ssk.cn.poc.harmony");

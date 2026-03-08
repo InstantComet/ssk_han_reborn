@@ -35,6 +35,11 @@ internal static class TranslationManager
     // 已确认不匹配任何模板的文本
     private static readonly HashSet<string> _noTemplateMatch = new(StringComparer.Ordinal);
     
+    // 前缀索引：用于匹配游戏截断长文本只显示第一句/段的情况
+    // Key: 原文前 PrefixLen 个字符, Value: (完整原文, 完整译文) 列表
+    private static readonly Dictionary<string, List<(string fullOrig, string fullTrans)>> _prefixIndex = new(StringComparer.Ordinal);
+    private const int PrefixLen = 16;
+    
     private static readonly object _cacheLock = new();
 
     /// <summary>
@@ -186,6 +191,7 @@ internal static class TranslationManager
             {
                 // 精确匹配
                 Map[original] = translation;
+                AddToPrefixIndex(original, translation);
             }
             
             loaded++;
@@ -266,6 +272,7 @@ internal static class TranslationManager
                     if (!string.IsNullOrEmpty(normalizedOrig) && !string.IsNullOrEmpty(normalizedTrans))
                     {
                         Map[normalizedOrig] = normalizedTrans;
+                        AddToPrefixIndex(normalizedOrig, normalizedTrans);
                         loaded++;
                     }
                 }
@@ -570,6 +577,29 @@ internal static class TranslationManager
     }
 
     /// <summary>
+    /// 验证关键翻译条目是否已加载
+    /// </summary>
+    public static void VerifyKeyEntries()
+    {
+        string[] testKeys = new[]
+        {
+            "You can investigate the black box at New Winchester.",
+            "You could take the box to London, as requested...",
+            "...or you could sell it, and be done.",
+            "You have been bequeathed a large black box which once belonged to Captain Whitlock.",
+            "New Winchester",
+            "The Blue Kingdom Transit Relay"
+        };
+        foreach (var key in testKeys)
+        {
+            if (Map.TryGetValue(key, out var val))
+                Plugin.LogSrc.LogInfo($"[VERIFY] ✓ '{key.Substring(0, Math.Min(40, key.Length))}...' -> '{val.Substring(0, Math.Min(30, val.Length))}..'");
+            else
+                Plugin.LogSrc.LogWarning($"[VERIFY] ✗ NOT FOUND: '{key}'");
+        }
+    }
+
+    /// <summary>
     /// 尝试翻译文本
     /// </summary>
     /// <returns>翻译后的文本，如果没有匹配则返回 null</returns>
@@ -626,6 +656,17 @@ internal static class TranslationManager
             }
         }
         
+        // 3.5 尝试前缀匹配（处理游戏截断长描述只显示第一句/段的情况）
+        if (trimmed.Length >= PrefixLen + 3)
+        {
+            var prefixResult = TryPrefixMatch(trimmed);
+            if (prefixResult != null)
+            {
+                lock (_cacheLock) { _templateMatchCache[text] = prefixResult; }
+                return prefixResult;
+            }
+        }
+        
         // 4. 尝试日期翻译（动态处理各种日期格式）
         var dateResult = DateTranslator.TryTranslateWithTags(text);
         if (dateResult != null)
@@ -638,6 +679,217 @@ internal static class TranslationManager
         return TryMatchTemplate(text);
     }
 
+    // === 前缀索引匹配（处理游戏截断长文本） ===
+    
+    /// <summary>
+    /// 将长文本条目加入前缀索引，同时提取首句/首段加入精确匹配字典
+    /// </summary>
+    private static void AddToPrefixIndex(string original, string translation)
+    {
+        if (original.Length < PrefixLen + 20) return;
+        
+        // 加入前缀索引
+        string prefix = original.Substring(0, PrefixLen);
+        if (!_prefixIndex.TryGetValue(prefix, out var list))
+        {
+            list = new List<(string, string)>();
+            _prefixIndex[prefix] = list;
+        }
+        list.Add((original, translation));
+        
+        // 提取首句加入精确匹配字典（处理游戏只显示第一句话的情况）
+        AddFirstSentenceToMap(original, translation);
+    }
+    
+    /// <summary>
+    /// 从长文本中提取第一句/引语/段落，并将其与翻译的对应部分加入 Map。
+    /// 处理游戏截断长描述只显示首句的情况。
+    /// </summary>
+    private static void AddFirstSentenceToMap(string original, string translation)
+    {
+        // 尝试不同的截断点来提取首句
+        var origSentence = ExtractFirstSentence(original);
+        if (origSentence == null || origSentence.Length < 8 || origSentence == original) return;
+        
+        // 如果首句已经在 Map 中，跳过
+        if (Map.ContainsKey(origSentence)) return;
+        
+        // 从翻译中提取对应的首句
+        var transSentence = ExtractFirstSentence(translation);
+        if (transSentence == null || transSentence.Length < 2 || transSentence == translation) return;
+        
+        Map[origSentence] = transSentence;
+    }
+    
+    /// <summary>
+    /// 提取文本的第一个逻辑句子/引语/段落
+    /// </summary>
+    private static string ExtractFirstSentence(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return null;
+        
+        // 策略1: 在 \r\n\r\n 或 \n\n 段落分隔处截断
+        int paraBreak = text.IndexOf("\r\n\r\n", StringComparison.Ordinal);
+        if (paraBreak < 0) paraBreak = text.IndexOf("\n\n", StringComparison.Ordinal);
+        
+        // 策略2: 找第一个完整引语 "..." 或 "..."
+        // 策略3: 找第一个句末标点
+        
+        int bestEnd = -1;
+        
+        // 如果文本以引号开头，找匹配的闭合引号
+        if (text.Length > 1)
+        {
+            char first = text[0];
+            char closeQuote = '\0';
+            if (first == '"') closeQuote = '"';
+            else if (first == '\u201c') closeQuote = '\u201d'; // ""
+            else if (first == '\u300c') closeQuote = '\u300d'; // 「」
+            
+            if (closeQuote != '\0')
+            {
+                // 找闭合引号（跳过第一个字符）
+                int closeIdx = text.IndexOf(closeQuote, 1);
+                if (closeIdx > 0 && closeIdx < text.Length - 5)
+                {
+                    bestEnd = closeIdx + 1;
+                }
+            }
+        }
+        
+        // 如果没有找到引语边界，寻找段落分隔
+        if (bestEnd < 0 && paraBreak > 0 && paraBreak < text.Length - 10)
+        {
+            bestEnd = paraBreak;
+        }
+        
+        // 如果还没有，找句末标点（.!? 后跟空格或行尾）
+        if (bestEnd < 0)
+        {
+            for (int i = 8; i < text.Length - 5; i++)
+            {
+                char c = text[i];
+                bool isSentenceEnd = false;
+                
+                if ((c == '.' || c == '!' || c == '?') && i + 1 < text.Length && (text[i + 1] == ' ' || text[i + 1] == '\r' || text[i + 1] == '\n'))
+                {
+                    // 检查下一个字符不是小写（避免在缩写如 "e.g." 处截断）
+                    if (i + 2 < text.Length && char.IsUpper(text[i + 2]))
+                        isSentenceEnd = true;
+                    else if (i + 2 < text.Length && text[i + 2] == '"')
+                        isSentenceEnd = true;
+                    else if (text[i + 1] == '\r' || text[i + 1] == '\n')
+                        isSentenceEnd = true;
+                }
+                // 中文句末标点
+                else if (c == '\u3002' || c == '\uff01' || c == '\uff1f')
+                {
+                    isSentenceEnd = true;
+                    // 检查后面是否跟着闭合引号
+                    if (i + 1 < text.Length && (text[i + 1] == '\u201d' || text[i + 1] == '\u300d'))
+                    {
+                        i++; // 包含闭合引号
+                    }
+                }
+                
+                if (isSentenceEnd)
+                {
+                    bestEnd = i + 1;
+                    break;
+                }
+            }
+        }
+        
+        if (bestEnd > 0 && bestEnd < text.Length)
+        {
+            return text.Substring(0, bestEnd).TrimEnd();
+        }
+        
+        return null;
+    }
+    
+    /// <summary>
+    /// 前缀匹配：当游戏只显示长描述的第一句/段时，通过前缀索引查找完整翻译并截取对应部分
+    /// </summary>
+    private static string TryPrefixMatch(string text)
+    {
+        if (text.Length < PrefixLen + 3) return null;
+        
+        string prefix = text.Substring(0, PrefixLen);
+        if (!_prefixIndex.TryGetValue(prefix, out var candidates)) return null;
+        
+        foreach (var (fullOrig, fullTrans) in candidates)
+        {
+            // 确认输入文本确实是完整key的前缀，且key明显更长
+            if (fullOrig.Length > text.Length + 10 &&
+                fullOrig.StartsWith(text, StringComparison.Ordinal))
+            {
+                return ExtractTranslationForPrefix(text, fullOrig, fullTrans);
+            }
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// 根据原文截断比例，在翻译文本中找到最近的句子/段落边界并截取
+    /// </summary>
+    private static string ExtractTranslationForPrefix(string inputText, string fullOriginal, string fullTranslation)
+    {
+        // 用长度比例估算翻译文本的截断位置
+        double ratio = (double)inputText.Length / fullOriginal.Length;
+        int approxEnd = (int)(fullTranslation.Length * ratio);
+        
+        // 在估算位置附近寻找最近的句子/段落边界（前后各搜 30 字符）
+        int windowStart = Math.Max(0, approxEnd - 30);
+        int windowEnd = Math.Min(fullTranslation.Length, approxEnd + 30);
+        
+        int bestPos = -1;
+        int bestDist = int.MaxValue;
+        
+        for (int i = windowStart; i < windowEnd; i++)
+        {
+            char c = fullTranslation[i];
+            int endPos = -1;
+            
+            // 中文句子结束符：。！？
+            if (c == '\u3002' || c == '\uff01' || c == '\uff1f')
+            {
+                endPos = i + 1;
+                // 检查后面是否跟着引号（处理对话格式 "...。"）
+                if (endPos < fullTranslation.Length)
+                {
+                    char next = fullTranslation[endPos];
+                    if (next == '\u201d' || next == '\u300d' || next == '\u2019') // "」'
+                        endPos++;
+                }
+            }
+            // 段落边界
+            else if (c == '\n' && i + 1 < fullTranslation.Length && fullTranslation[i + 1] == '\n')
+            {
+                endPos = i;
+            }
+            
+            if (endPos >= 0)
+            {
+                int dist = Math.Abs(endPos - approxEnd);
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestPos = endPos;
+                }
+            }
+        }
+        
+        if (bestPos > 0 && bestPos <= fullTranslation.Length)
+        {
+            return fullTranslation.Substring(0, bestPos).TrimEnd();
+        }
+        
+        // 回退：按比例截断
+        int safeEnd = Math.Min(Math.Max(approxEnd, 1), fullTranslation.Length);
+        return fullTranslation.Substring(0, safeEnd).TrimEnd();
+    }
+    
     // === 富文本标签匹配 ===
     // 匹配外层包裹标签: <tag>...<tag>CONTENT</tag>...</tag>
     private static readonly Regex _outerTagsRegex = new(
@@ -654,6 +906,8 @@ internal static class TranslationManager
     /// </summary>
     private static string TryTranslateWithTagStripping(string text)
     {
+        Plugin.LogSrc.LogDebug($"[TAG-STRIP] Input: '{text.Substring(0, Math.Min(80, text.Length))}'");
+        
         // Phase 1: 提取外层包裹标签，翻译内部内容（保留格式）
         var match = _outerTagsRegex.Match(text);
         if (match.Success)
@@ -662,10 +916,13 @@ internal static class TranslationManager
             string inner = match.Groups[2].Value;
             string suffix = match.Groups[3].Value;
             
+            Plugin.LogSrc.LogDebug($"[TAG-STRIP] Phase1: prefix='{prefix}' inner='{inner.Substring(0, Math.Min(60, inner.Length))}' suffix='{suffix}'");
+            
             // 内部不含标签时，递归调用 TryTranslate 翻译（不会无限递归，因为 inner 无 '<'）
             if (inner.IndexOf('<') < 0)
             {
                 string translated = TryTranslate(inner);
+                Plugin.LogSrc.LogDebug($"[TAG-STRIP] Phase1 translate: {(translated != null ? "HIT" : "MISS")} for '{inner.Substring(0, Math.Min(60, inner.Length))}'");
                 if (translated != null)
                 {
                     // 中文无大小写之分，移除 smallcaps 标签避免 TMP 异常缩放
